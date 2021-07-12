@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-# from ..level import Level
+import src.elements.element_data as element_data
+
 from ..position import Position
-from .element_data import ElementData
 
 
 class LevelElement(ABC):
@@ -42,7 +42,7 @@ class LevelElement(ABC):
         """
         return "?"
 
-    def move_left(self, data: ElementData) -> Position:
+    def move_left(self, data: element_data.ElementData) -> Position:
         """Return the left-movement level element position according to its rules."""
         position = data.level.get_element_position(self)
         return position - Position(-1, 0)

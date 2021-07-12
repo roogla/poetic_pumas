@@ -18,22 +18,22 @@ def main(terminal: Terminal) -> None:
     terminal.number_of_colors = 1 << 24
 
     # initalize game vars
-    level = create_level_from_file("./levels/level_1.txt")
+    level = create_level_from_file("./levels/level-1.txt")
     renderer = Renderer(terminal=terminal)
     gamestate = GameState(level=level, renderer=renderer)
 
     with terminal.cbreak(), terminal.hidden_cursor(), terminal.fullscreen():
-        print(terminal.home + terminal.clear + str(level))
+        renderer.render_level(level)
         t = time.time()
 
         running = True
         while running:
             key_input = terminal.inkey(timeout=TIMEOUT)
-            action = key_input
-            # action = Action(key_input)
+
             # TODO: Figure out FPS and stuff here
-            # gamestate.next(action)
-            gamestate.next(key_input)
+            if key_input:
+                print(repr(key_input))
+                gamestate.update(key_input)
 
 
 if __name__ == "__main__":

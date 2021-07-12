@@ -4,16 +4,17 @@ import itertools as it
 from pathlib import Path
 from typing import Union
 
-from .elements import BlockDude, LevelElement, NullElement, Space
-from .level_parser import LevelElements, parse_text_level
+import src.elements as elements
+import src.level_parser as level_parser
+
 from .position import Position
 
 
 class Level:
     """The level class containing the various level elements and related information."""
 
-    def __init__(self, elements: LevelElements):
-        self.elements = elements
+    def __init__(self, level_elements: level_parser.LevelElements):
+        self.level_elements = level_elements
         self.active_element = self.get_main_character()
 
     def __repr__(self) -> str:
@@ -21,7 +22,7 @@ class Level:
 
     def __str__(self) -> str:
         level = ""
-        for row in self.elements:
+        for row in self.level_elements:
             stringified_elements = [str(element) for element in row]
             stringified_row = "".join(stringified_elements)
             level += stringified_row + "\n"
@@ -35,45 +36,45 @@ class Level:
     @property
     def height(self) -> int:
         """Height of the level map in blocks."""
-        return len(self.elements)
+        return len(self.level_elements)
 
     @property
     def width(self) -> int:
         """Width of the level map in blocks."""
-        return len(self.elements[0])
+        return len(self.level_elements[0])
 
-    def get_element_at_position(self, position: Position) -> LevelElement:
+    def get_element_at_position(self, position: Position) -> elements.LevelElement:
         """Determines which element is lcoated at a particular position."""
         try:
-            return self.elements[position.y][position.x]
+            return self.level_elements[position.y][position.x]
         except IndexError:
-            return NullElement()
+            return elements.NullElement()
 
-    def get_element_position(self, level_element: LevelElement) -> Position:
+    def get_element_position(self, level_element: elements.LevelElement) -> Position:
         """Determines the location of the level element."""
         # TODO: If this process is inefficient, try caching elements to positions in a
         # dictionary
-        for row_index, row in enumerate(self.elements):
+        for row_index, row in enumerate(self.level_elements):
             for column_index, column in enumerate(row):
                 if column is level_element:
                     return Position(x=column_index, y=row_index)
         raise RuntimeError(f"Element `{level_element}` was not found.")
 
     def set_element_at_position(
-        self, level_element: LevelElement, position: Position
+        self, level_element: elements.LevelElement, position: Position
     ) -> None:
-        self.elements[position.y][position.x] = level_element
+        self.level_elements[position.y][position.x] = level_element
 
     def move_element(self, from_position: Position, to_position: Position) -> None:
         element = self.get_element_at_position(from_position)
-        self.elements[from_position.y][from_position.x] = Space()
-        self.elements[to_position.y][to_position.x] = element
+        self.level_elements[from_position.y][from_position.x] = elements.Space()
+        self.level_elements[to_position.y][to_position.x] = element
 
-    def get_main_character(self) -> LevelElement:
+    def get_main_character(self) -> elements.LevelElement:
         """Gets the main character in the level."""
-        MAIN_CHARACTER = BlockDude
+        MAIN_CHARACTER = elements.BlockDude
 
-        for element in it.chain.from_iterable(self.elements):
+        for element in it.chain.from_iterable(self.level_elements):
             # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.
             if isinstance(element, MAIN_CHARACTER):
                 return element
@@ -87,7 +88,7 @@ def create_level_from_file(file_path: Union[str, Path]) -> Level:
         file_path (Path): the path is in the shape of "./levels/*.txt"
     """
     path = Path(__file__).parent / Path(file_path)
-    level_elements = parse_text_level(path)
+    level_elements = level_parser.parse_text_level(path)
     return Level(level_elements)
 
 
