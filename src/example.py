@@ -2,6 +2,10 @@ from blessed import Terminal
 
 term = Terminal()
 
+# Necessary when running with Docker
+# Docker's terminal defaults to 8 colors
+term.number_of_colors = 1 << 24
+
 print(term.home + term.clear + term.move_y(term.height // 2))
 print(term.black_on_darkkhaki(term.center("press any key to continue.")))
 
