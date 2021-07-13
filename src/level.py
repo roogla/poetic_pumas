@@ -62,9 +62,11 @@ class Level:
     def set_element_at_position(
         self, level_element: LevelElement, position: Position
     ) -> None:
+        """Puts element at provided coordinates"""
         self.elements[position.y][position.x] = level_element
 
     def move_element(self, from_position: Position, to_position: Position) -> None:
+        """Determines coordinates for movement of element to specific location"""
         element = self.get_element_at_position(from_position)
         self.elements[from_position.y][from_position.x] = Space()
         self.elements[to_position.y][to_position.x] = element

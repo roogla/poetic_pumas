@@ -18,22 +18,29 @@ def main(terminal: Terminal) -> None:
     terminal.number_of_colors = 1 << 24
 
     # initalize game vars
-    level = create_level_from_file("./levels/level_1.txt")
+    level = create_level_from_file("./levels/level-99.txt")
     renderer = Renderer(terminal=terminal)
     gamestate = GameState(level=level, renderer=renderer)
 
     with terminal.cbreak(), terminal.hidden_cursor(), terminal.fullscreen():
-        print(terminal.home + terminal.clear + str(level))
+        print(terminal.home + terminal.clear)
         t = time.time()
+        key_input = ''
 
-        running = True
-        while running:
+        while key_input != "q":
             key_input = terminal.inkey(timeout=TIMEOUT)
             action = key_input
+
+            # check for keyboard input
+            # how to keep track using the enum row for map
+            # needed for erase function (erase function needed)
+            # graphics
             # action = Action(key_input)
             # TODO: Figure out FPS and stuff here
             # gamestate.next(action)
             gamestate.next(key_input)
+
+            print(terminal.home + str(level))
 
 
 if __name__ == "__main__":
