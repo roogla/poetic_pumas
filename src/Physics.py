@@ -4,7 +4,7 @@ from Vector2D import Vector2D
 
 
 class RigidBody:
-    """ Creates a RigitBody object. Utilizes Vector2D class """
+    """Creates a RigitBody object. Utilizes Vector2D class"""
 
     def __init__(self, x: Union[float, int], y: Union[float, int]):
         self._pos = Vector2D(x, y)

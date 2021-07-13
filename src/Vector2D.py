@@ -6,7 +6,7 @@ from math import sqrt
 
 
 class Vector2D:
-    """ 2 Dimensional vector math class. Implements vector operations. """
+    """2 Dimensional vector math class. Implements vector operations."""
 
     def __init__(self, x: Union[float, int], y: Union[float, int]):
         self._x = x
@@ -61,7 +61,6 @@ class Vector2D:
         in vector form A / n
         :param scaler: the scale multiplier
         """
-
         if scaler == 0:
             raise ZeroDivisionError("Scaler cannot be zero")
 
