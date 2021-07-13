@@ -42,7 +42,16 @@ class LevelElement(ABC):
         """
         return "?"
 
-    def move_left(self, data: element_data.ElementData) -> Position:
+    def move_left(self, data: element_data.ElementData) -> None:
         """Return the left-movement level element position according to its rules."""
         position = data.level.get_element_position(self)
-        return position - Position(-1, 0)
+        one_unit_leftward = position + Position(-1, 0)
+        data.level.move_element(position, one_unit_leftward)
+        data.renderer.update_level_render(data.level)
+
+    def move_right(self, data: element_data.ElementData) -> None:
+        """Return the left-movement level element position according to its rules."""
+        position = data.level.get_element_position(self)
+        one_unit_leftward = position + Position(1, 0)
+        data.level.move_element(position, one_unit_leftward)
+        data.renderer.update_level_render(data.level)

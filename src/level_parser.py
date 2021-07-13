@@ -24,6 +24,7 @@ X -> exit/door
 """
 
 # Custom type alias for grid of level elements.
+# Wrapped in try-block because of circular references.
 try:
     LevelElements = list[list[elements.LevelElement]]
 except AttributeError:
