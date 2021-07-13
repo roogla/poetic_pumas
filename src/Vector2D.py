@@ -1,8 +1,7 @@
 from __future__ import annotations
-from typing import Union
-from typing import Optional
-from math import acos
-from math import sqrt
+
+from math import acos, sqrt
+from typing import Optional, Union
 
 
 class Vector2D:
