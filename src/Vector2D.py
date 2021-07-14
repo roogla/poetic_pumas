@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from math import acos, sqrt
-from typing import Optional, Union
+from typing import Union
 
 
 class Vector2D:
@@ -10,7 +10,7 @@ class Vector2D:
     def __init__(self, x: Union[float, int], y: Union[float, int]):
         self._x = x
         self._y = y
-        self._limit: Optional[float, int] = None
+        self._limit: Union[float, int, None] = None
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self._x},{self._y})"
