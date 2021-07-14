@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from typing import Type
 
+from src.level import Level
+
 from .block import Block
 from .blockdude import BlockDude
 from .bottomwall import BottomWall
 from .exitdoor import ExitDoor
 from .ground import Ground
 from .levelelement import LevelElement
+from .null_element import NullElement
 from .space import Space
 from .topbottomwall import TopBottomWall
 from .topwall import TopWall
@@ -24,4 +27,19 @@ active_elements: tuple[Type[LevelElement], ...] = (
     Ground,
     Space,
     ExitDoor,
+)
+
+# Expose for better pep compliance
+__all__ = (
+    "Block",
+    "BlockDude",
+    "BottomWall",
+    "ExitDoor",
+    "Ground",
+    "Level",
+    "NullElement",
+    "Space",
+    "TopBottomWall",
+    "TopWall",
+    "Wall",
 )
