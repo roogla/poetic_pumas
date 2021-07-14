@@ -13,14 +13,27 @@ class Vector2D:
         self._limit: Optional[float, int] = None
 
     @property
-    def x(self):
+    def x(self) -> int:
+        """Get x"""
         return self._x
 
     @property
-    def y(self):
+    def y(self) -> int:
+        """Get y"""
         return self._y
 
+    @x.setter
+    def x(self, value: int) -> None:
+        """Set x"""
+        self._x = value
+
+    @y.setter
+    def y(self, value: int) -> None:
+        """Set y"""
+        self._y = value
+
     def __repr__(self) -> str:
+        """repr method for class"""
         return f"{self.__class__.__name__}({self.x},{self.y})"
 
     def add(self, other: Vector2D) -> None:
@@ -35,6 +48,14 @@ class Vector2D:
         self.y += other.y
 
     def __add__(self, other: Vector2D) -> Vector2D:
+        """
+        Add operator override
+
+        Adds the other vector to instance vector
+        in vector form A + B
+        :param other: other 2D vector
+        :return vector equal to A + B
+        """
         new_vector = self.copy()
         new_vector.add(other)
         return new_vector
@@ -52,11 +73,12 @@ class Vector2D:
 
     def __sub__(self, other: Vector2D) -> Vector2D:
         """
-        Vector subtraction
+        Operator Vector subtraction
 
         Subtracts the other vector from instance vector
         in vector form A - B
         :param other: other 2D vector
+        :return vector equal to A - B
         """
         new_vector = self.copy()
         new_vector.sub(other)
@@ -79,9 +101,12 @@ class Vector2D:
 
     def __mul__(self, scalar: int) -> Vector2D:
         """
-        Operator vector multiplication
+        Operator Vector multiplication
 
-        makes a copy of the vector and scales it
+        scales the vector by given scalar or to the max limit defined by
+        Vector2D.limit() function
+        in vector form A * n
+        :param scalar: the scale multiplier
         :param scalar: the scale multiplier
         :return: the scaled vector
         """
@@ -181,12 +206,9 @@ class Vector2D:
         return acos(dot / mag)
 
     def copy(self) -> Vector2D:
+        """
+        Copy method
+
+        :return: Deep copy of the instance vector
+        """
         return Vector2D(self.x, self.y)
-
-    @x.setter
-    def x(self, value):
-        self._x = value
-
-    @y.setter
-    def y(self, value):
-        self._y = value
