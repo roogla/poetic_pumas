@@ -7,7 +7,7 @@ from typing import Generator, Union
 import src.elements as elements
 import src.level_parser as level_parser
 
-from .position import Position
+from .Vector2D import Vector2D
 
 
 class Level:
@@ -56,13 +56,13 @@ class Level:
         """
         return Level([row.copy() for row in self.level_elements])
 
-    def iterate_positions(self) -> Generator[Position, None, None]:
+    def iterate_positions(self) -> Generator[Vector2D, None, None]:
         """Iterate through the positions in the level from left to right, top to bottom."""
         yield from iter(self._positions)
 
     def _generate_positions_on_elements(
         self, level_elements: level_parser.LevelElements
-    ) -> tuple[Position, ...]:
+    ) -> tuple[Vector2D, ...]:
         """Helper method called upon initialization to generate iterable of positions.
 
         The positions of the elements go from top-left to bottom-right.
@@ -70,7 +70,7 @@ class Level:
         positions = []
         for row_index, row in enumerate(level_elements):
             positions_row = [
-                Position(x=column_index, y=row_index) for column_index in range(len(row))
+                Vector2D(x=column_index, y=row_index) for column_index in range(len(row))
             ]
             positions.extend(positions_row)
         return tuple(positions)
@@ -83,13 +83,13 @@ class Level:
         """
         yield from it.chain.from_iterable(self.level_elements)
 
-    def difference(self, other: Level) -> set[Position]:
+    def difference(self, other: Level) -> set[Vector2D]:
         """Gives a set of positions between this level and another based on their differences."""
         self_elements = it.chain.from_iterable(self.level_elements)
         other_elements = it.chain.from_iterable(other.level_elements)
 
         iter_positions = iter(self.iterate_positions())
-        positions: set[Position] = set()
+        positions: set[Vector2D] = set()
         for self_element, other_element in zip(self_elements, other_elements):
             position = next(iter_positions)
             if self_element is other_element:
@@ -97,30 +97,30 @@ class Level:
             positions.add(position)
         return positions
 
-    def get_element_at_position(self, position: Position) -> elements.LevelElement:
-        """Determines which element is located at a particular position."""
+    def get_element_at_position(self, position: Vector2D) -> elements.LevelElement:
+        """Determines which element is lcoated at a particular position."""
         try:
             return self.level_elements[position.y][position.x]
         except IndexError:
             return elements.NullElement()
 
-    def get_element_position(self, level_element: elements.LevelElement) -> Position:
+    def get_element_position(self, level_element: elements.LevelElement) -> Vector2D:
         """Determines the location of the level element."""
         # TODO: If this process is inefficient, try caching elements to positions in a
         # dictionary
         for row_index, row in enumerate(self.level_elements):
             for column_index, column in enumerate(row):
                 if column is level_element:
-                    return Position(x=column_index, y=row_index)
+                    return Vector2D(x=column_index, y=row_index)
         raise RuntimeError(f"Element `{level_element}` was not found.")
 
     def set_element_at_position(
-        self, level_element: elements.LevelElement, position: Position
+        self, level_element: elements.LevelElement, position: Vector2D
     ) -> None:
         """Sets an element at a given position to another element."""
         self.level_elements[position.y][position.x] = level_element
 
-    def move_element(self, from_position: Position, to_position: Position) -> None:
+    def move_element(self, from_position: Vector2D, to_position: Vector2D) -> None:
         """Moves an element from a particular coordinate position to another."""
         element = self.get_element_at_position(from_position)
         self.level_elements[from_position.y][from_position.x] = elements.Space()

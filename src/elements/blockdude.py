@@ -1,5 +1,5 @@
 # from ..level import Level
-from ..position import Position
+from ..Vector2D import Vector2D
 from .element_data import ElementData
 from .levelelement import LevelElement
 from .space import is_space_element
@@ -17,13 +17,13 @@ class BlockDude(LevelElement):
         The number of spaces can be positive or negative.
         """
         position = data.level.get_element_position(self)
-        lateral_position = position + Position(spaces, 0)
+        lateral_position = position + Vector2D(spaces, 0)
         lateral_element = data.level.get_element_at_position(lateral_position)
         destination = lateral_position
 
         if not is_space_element(lateral_element):
             # the element directly up and laterally
-            one_up_and_lateral_position = position + Position(spaces, -1)
+            one_up_and_lateral_position = position + Vector2D(spaces, -1)
             one_up_lateral_element = data.level.get_element_at_position(
                 one_up_and_lateral_position
             )
