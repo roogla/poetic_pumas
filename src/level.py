@@ -98,7 +98,7 @@ class Level:
         return positions
 
     def get_element_at_position(self, position: Position) -> elements.LevelElement:
-        """Determines which element is lcoated at a particular position."""
+        """Determines which element is located at a particular position."""
         try:
             return self.level_elements[position.y][position.x]
         except IndexError:
