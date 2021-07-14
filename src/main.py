@@ -26,7 +26,6 @@ def main(terminal: Terminal) -> None:
         while running:
             key_input = terminal.inkey(timeout=TIMEOUT)
 
-            # TODO: Figure out FPS and stuff here
             if key_input:
                 # # Debug statement useful for seeing key inputs.
                 # print(repr(key_input))
