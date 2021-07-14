@@ -5,4 +5,4 @@ class TopBottomWall(LevelElement):
     """Used for a single wall block."""
 
     level_symbol = "I"
-    string_symbol = "╦"
+    string_symbol = "🟫"
