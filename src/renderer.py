@@ -4,7 +4,7 @@ from blessed import Terminal
 
 # named lvl to avoid namespace conflict with var names
 import src.level as lvl
-from src.position import Position
+from src.Vector2D import Vector2D
 
 
 class Renderer:
@@ -14,7 +14,7 @@ class Renderer:
         self.terminal = terminal
         # The history of level states.
         self.level_states: list[lvl.Level] = [level.shallow_copy]
-        self.level_origin: Position = Position(0, 0)
+        self.level_origin: Vector2D = Vector2D(0, 0)
 
     @property
     def previous_level_state(self) -> lvl.Level:

@@ -36,7 +36,6 @@ def convert_character_to_element(char: str) -> elements.LevelElement:
 
     Args:
         char (str): ASCII level map character
-        position (Position): coordinate position with origin in the top-left
 
     Raises:
         Exception: if a character in the level map does not match an active object
