@@ -4,7 +4,7 @@ from blessed import Terminal
 
 # named lvl to avoid namespace conflict with var names
 import src.level as lvl
-from src.Vector2D import Vector2D
+from src.vector2D import Vector2D
 
 
 class Renderer:

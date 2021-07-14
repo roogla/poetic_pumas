@@ -3,8 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 import src.elements.element_data as element_data
-
-from ..Vector2D import Vector2D
+from src.vector2D import Vector2D
 
 
 class LevelElement(ABC):

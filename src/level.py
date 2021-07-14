@@ -6,8 +6,7 @@ from typing import Generator, Union
 
 import src.elements as elements
 import src.level_parser as level_parser
-
-from .Vector2D import Vector2D
+from src.vector2D import Vector2D
 
 
 class Level:
@@ -100,7 +99,8 @@ class Level:
     def get_element_at_position(self, position: Vector2D) -> elements.LevelElement:
         """Determines which element is lcoated at a particular position."""
         try:
-            return self.level_elements[position.y][position.x]
+            y, x = int(position.y), int(position.x)
+            return self.level_elements[y][x]
         except IndexError:
             return elements.NullElement()
 
@@ -118,13 +118,17 @@ class Level:
         self, level_element: elements.LevelElement, position: Vector2D
     ) -> None:
         """Sets an element at a given position to another element."""
-        self.level_elements[position.y][position.x] = level_element
+        y, x = int(position.y), int(position.x)
+        self.level_elements[y][x] = level_element
 
     def move_element(self, from_position: Vector2D, to_position: Vector2D) -> None:
         """Moves an element from a particular coordinate position to another."""
         element = self.get_element_at_position(from_position)
-        self.level_elements[from_position.y][from_position.x] = elements.Space()
-        self.level_elements[to_position.y][to_position.x] = element
+        from_y, from_x = int(from_position.y), int(from_position.x)
+        to_y, to_x = int(to_position.y), int(to_position.x)
+
+        self.level_elements[from_y][from_x] = elements.Space()
+        self.level_elements[to_y][to_x] = element
 
     def get_main_character(self) -> elements.LevelElement:
         """Gets the main character in the level."""
