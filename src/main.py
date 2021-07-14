@@ -22,14 +22,11 @@ def main(terminal: Terminal) -> None:
     with terminal.cbreak(), terminal.hidden_cursor(), terminal.fullscreen():
         renderer.render_level(level)
 
-        running = True
-        while running:
-            key_input = terminal.inkey(timeout=TIMEOUT)
+        while True:
+            keystroke = terminal.inkey(timeout=TIMEOUT)
 
-            if key_input:
-                # # Debug statement useful for seeing key inputs.
-                # print(repr(key_input))
-                gamestate.update(key_input)
+            if keystroke:
+                gamestate.update(keystroke)
 
 
 if __name__ == "__main__":

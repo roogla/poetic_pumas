@@ -15,12 +15,15 @@ class InputHandler:
         Key.LEFT: cmd.move_left,
         Key.SPACE: cmd.interact,
         Key.RIGHT: cmd.move_right,
+        Key.ESCAPE: cmd.exit_terminal,
+        Key.Q: cmd.exit_terminal,
+        Key.q: cmd.exit_terminal,
     }
 
     def __init__(self) -> None:
         pass
 
-    def handle_input(self, key_input: Keystroke, data: ElementData) -> None:
+    def handle_input(self, keystroke: Keystroke, data: ElementData) -> None:
         """Handles the player input and information regarding handling input."""
-        command: Command = self.mapping.get(key_input.name, cmd.do_nothing)
+        command: Command = self.mapping.get(Key(keystroke).name, cmd.do_nothing)
         command(data)

@@ -21,3 +21,8 @@ def move_right(data: ElementData) -> None:
 
 def interact(data: ElementData) -> None:
     """Interact using the specific level element."""
+
+
+def exit_terminal(data: ElementData) -> None:
+    """Completely exit the script."""
+    quit()
