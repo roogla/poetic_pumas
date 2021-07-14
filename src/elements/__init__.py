@@ -8,7 +8,6 @@ from .bottomwall import BottomWall
 from .exitdoor import ExitDoor
 from .ground import Ground
 from .levelelement import LevelElement
-from .null_element import NullElement
 from .space import Space
 from .topbottomwall import TopBottomWall
 from .topwall import TopWall
