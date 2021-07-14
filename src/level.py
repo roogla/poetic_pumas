@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import itertools as it
 from pathlib import Path
-from typing import Generator, Optional, Union
+from typing import Generator, Union
 
 import src.elements as elements
 import src.level_parser as level_parser
