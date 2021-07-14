@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Union
 
-from Vector2D import Vector2D
+from src.vector2D import Vector2D
 
 
 class RigidBody:
