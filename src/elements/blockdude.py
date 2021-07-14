@@ -14,7 +14,8 @@ class BlockDude(LevelElement):
     def move_laterally(self, data: ElementData, spaces: int = 1) -> None:
         """Moves this level element laterally by some number of spaces given.
 
-        The number of spaces can be positive or negative."""
+        The number of spaces can be positive or negative.
+        """
         position = data.level.get_element_position(self)
         lateral_position = position + Position(spaces, 0)
         lateral_element = data.level.get_element_at_position(lateral_position)

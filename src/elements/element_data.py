@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import src.elements.levelelement as levelelement
-
 # named this way to avoid conflict with var name in ElementData
 import src.level as lvl
 from src.renderer import Renderer

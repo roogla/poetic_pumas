@@ -57,6 +57,7 @@ class Level:
         return Level([row.copy() for row in self.level_elements])
 
     def iterate_positions(self) -> Generator[Position, None, None]:
+        """Iterate through the positions in the level from left to right, top to bottom."""
         yield from iter(self._positions)
 
     def _generate_positions_on_elements(
