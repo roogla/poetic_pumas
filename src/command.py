@@ -11,7 +11,12 @@ def do_nothing(data: ElementData) -> None:
 
 def move_left(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
-    data.level_element.move_left(data.level)
+    data.level_element.move_left(data)
+
+
+def move_right(data: ElementData) -> None:
+    """Attempt to move the level element leftward."""
+    data.level_element.move_right(data)
 
 
 def interact(data: ElementData) -> None:

@@ -1,18 +1,22 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import Any
 
-# from src.level import Level
+import src.elements.levelelement as levelelement
+
+# named this way to avoid conflict with var name in ElementData
+import src.level as lvl
 from src.renderer import Renderer
-
-# from .levelelement import LevelElement
 
 
 @dataclass
 class ElementData:
-    """Packages up the data LevelElements need to know in order to move properly
+    """Object aggregation for easier movement through code.
+
+    Packages up the data LevelElements need to know in order to move properly
     and render appropriately.
     """
 
-    level: Any  # Level
+    level: lvl.Level
     renderer: Renderer
-    level_element: Any  # LevelElement
+    level_element: levelelement.LevelElement

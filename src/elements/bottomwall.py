@@ -5,4 +5,4 @@ class BottomWall(LevelElement):
     """The wall element that makes contact with the ground."""
 
     level_symbol = "V"
-    string_symbol = "║"
+    string_symbol = "🟫"

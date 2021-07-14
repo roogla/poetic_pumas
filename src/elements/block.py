@@ -7,4 +7,4 @@ class Block(LevelElement):
     """The basic block that Block Dude can interact with."""
 
     level_symbol = "B"
-    string_symbol = "■"
+    string_symbol = "🟩"

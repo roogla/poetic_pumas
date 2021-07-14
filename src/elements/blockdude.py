@@ -2,28 +2,49 @@
 from ..position import Position
 from .element_data import ElementData
 from .levelelement import LevelElement
-from .space import Space
+from .space import is_space_element
 
 
 class BlockDude(LevelElement):
     """Block Dude himself. The main character."""
 
     level_symbol = "D"
-    string_symbol = "Á"
+    string_symbol = "🤷"
+
+    def move_laterally(self, data: ElementData, spaces: int = 1) -> None:
+        """Moves this level element laterally by some number of spaces given.
+
+        The number of spaces can be positive or negative."""
+        position = data.level.get_element_position(self)
+        lateral_position = position + Position(spaces, 0)
+        lateral_element = data.level.get_element_at_position(lateral_position)
+        destination = lateral_position
+
+        if not is_space_element(lateral_element):
+            # the element directly up and laterally
+            one_up_and_lateral_position = position + Position(spaces, -1)
+            one_up_lateral_element = data.level.get_element_at_position(
+                one_up_and_lateral_position
+            )
+
+            # if there's a block above the one in the way
+            if not is_space_element(one_up_lateral_element):
+                return
+            destination = one_up_and_lateral_position
+
+        data.level.move_element(position, destination)
+        data.renderer.render_level(data.level)
 
     def move_left(self, data: ElementData) -> None:
-        """Give the new position for the block dude when moving left.
+        """Move this level element leftward according to the rules.
 
         If there are any objects to the left of block dude, he cannot move left.
         """
+        self.move_laterally(data, spaces=-1)
 
-        position = data.level.get_element_position(self)
-        one_unit_leftward = position + Position(-1, 0)
-        left_element = data.level.get_element_at_position(one_unit_leftward)
-        data.level.move_element(position, one_unit_leftward)
-        # TODO: Something with renderer
-        # print(data.level
+    def move_right(self, data: ElementData) -> None:
+        """Move this level element leftward according to the rules.
 
-        if isinstance(left_element, Space):
-            return one_unit_leftward
-        return position
+        If there are any objects to the left of block dude, he cannot move left.
+        """
+        self.move_laterally(data, spaces=1)

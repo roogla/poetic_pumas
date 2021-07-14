@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Level parser.
 
@@ -6,7 +8,7 @@ Contains helper class and functions to read map layout files.
 
 from pathlib import Path
 
-from .elements import LevelElement, active_elements
+import src.elements as elements
 
 """Reference for level elements.
 
@@ -22,10 +24,14 @@ X -> exit/door
 """
 
 # Custom type alias for grid of level elements.
-LevelElements = list[list[LevelElement]]
+# Wrapped in try-block because of circular references.
+try:
+    LevelElements = list[list[elements.LevelElement]]
+except AttributeError:
+    pass
 
 
-def convert_character_to_element(char: str) -> LevelElement:
+def convert_character_to_element(char: str) -> elements.LevelElement:
     """Converts a level ASCII character into a `LevelElement` object.
 
     Args:
@@ -38,7 +44,7 @@ def convert_character_to_element(char: str) -> LevelElement:
     Returns:
         LevelElement: the object representation of the level element
     """
-    for element in active_elements:
+    for element in elements.active_elements:
         if element.level_symbol == char:
             return element()
     raise Exception(f"Invalid character in the level map: `{char}`.")
