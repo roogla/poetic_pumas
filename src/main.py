@@ -15,7 +15,7 @@ def main(terminal: Terminal) -> None:
     terminal.number_of_colors = 1 << 24
 
     # initalize game vars
-    level = create_level_from_file("./levels/level-1.txt")
+    level = create_level_from_file("./resources/levels/level-1.txt")
     renderer = Renderer(terminal=terminal, level=level)
     gamestate = GameState(level=level, renderer=renderer)
 
