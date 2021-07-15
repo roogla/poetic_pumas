@@ -31,8 +31,13 @@ class BlockDude(LevelElement):
 
             # if there's a block above the one in the way
             if not is_space_element(one_up_lateral_element):
+                data.soundboard.play_sfx("bump")
                 return
+            else:
+                data.soundboard.play_sfx("step")
             destination = one_up_and_lateral_position
+        else:
+            data.soundboard.play_sfx("step")
 
         data.level.move_element(position, destination)
         data.renderer.render_level(data.level)
