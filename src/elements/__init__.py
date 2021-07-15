@@ -5,8 +5,8 @@ from typing import Type
 from src.level import Level
 
 from .block import Block
-from .dude import Dude
 from .bottomwall import BottomWall
+from .dude import Dude
 from .exitdoor import ExitDoor
 from .ground import Ground
 from .levelelement import LevelElement

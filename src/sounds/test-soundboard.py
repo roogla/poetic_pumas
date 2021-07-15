@@ -1,27 +1,27 @@
 import os
-
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import sys
 import time
-from blessed import Terminal
-from pygame import mixer
 from random import choice
 
-# adapted from https://stackoverflow.com/questions/16480898
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from blessed import Terminal
+from pygame import mixer
+
 from src.soundboard import Soundboard
 
+# adapted from https://stackoverflow.com/questions/16480898
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-def close():
-    """
-    Closes the terminal and clears the screen
-    """
+
+def close() -> None:
+    """Closes the terminal and clears the screen"""
     print(term.clear)
     mixer.quit()
     sys.exit(0)
 
 
-def draw(x: int, y: int, char: str):
+def draw(x: int, y: int, char: str) -> None:
+    """Test"""
     print(term.move_xy(x, y) + term.bold_on_red + char, end="", flush=True)
 
 
@@ -45,6 +45,7 @@ if __name__ == "__main__":
         wait_time = 0.2
         last_inp = None
         last_inp_time = 0
+        inp = ""
         while True:
             try:
                 inp = repr(term.inkey()).strip("'")

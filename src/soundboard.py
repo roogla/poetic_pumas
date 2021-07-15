@@ -1,5 +1,6 @@
 import os
 from typing import Dict, List
+
 from pygame import mixer
 
 
@@ -33,12 +34,13 @@ class Soundboard:
         # TODO: add music
         return list(self.sfx.keys())
 
-    def play_sfx(self, name: str):
+    def play_sfx(self, name: str) -> None:
         """Play a file by name, (no extension)
 
         :param name: the name of the file in the sfx directory
         """
         mixer.find_channel(True).play(self.sfx[name])
 
-    def quit(self):
+    def quit(self) -> None:
+        """Quit the soundboard mixer."""
         mixer.quit()
