@@ -49,8 +49,22 @@ class LevelElement(ABC):
         data.renderer.render_level(data.level)
 
     def move_right(self, data: element_data.ElementData) -> None:
-        """Return the left-movement level element position according to its rules."""
+        """Return the right-movement level element position according to its rules."""
         position = data.level.get_element_position(self)
         one_unit_leftward = position + Vector2D(1, 0)
+        data.level.move_element(position, one_unit_leftward)
+        data.renderer.render_level(data.level)
+    
+    def move_up(self, data: element_data.ElementData) -> None:
+        """Return the up-movement level element position according to its rules."""
+        position = data.level.get_element_position(self)
+        one_unit_leftward = position + Vector2D(0, -1)
+        data.level.move_element(position, one_unit_leftward)
+        data.renderer.render_level(data.level)
+
+    def move_down(self, data: element_data.ElementData) -> None:
+        """Return the up-movement level element position according to its rules."""
+        position = data.level.get_element_position(self)
+        one_unit_leftward = position + Vector2D(0, 1)
         data.level.move_element(position, one_unit_leftward)
         data.renderer.render_level(data.level)
