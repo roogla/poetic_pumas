@@ -132,7 +132,7 @@ class Level:
 
     def get_main_character(self) -> elements.LevelElement:
         """Gets the main character in the level."""
-        MAIN_CHARACTER = elements.BlockDude
+        MAIN_CHARACTER = elements.Dude
 
         for element in it.chain.from_iterable(self.level_elements):
             # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.

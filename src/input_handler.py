@@ -12,6 +12,7 @@ class InputHandler:
     """Handles the input to action commands."""
 
     mapping: dict[Optional[str], Command] = {
+        Key.UP: cmd.move_up,
         Key.LEFT: cmd.move_left,
         Key.SPACE: cmd.interact,
         Key.RIGHT: cmd.move_right,

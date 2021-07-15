@@ -5,7 +5,7 @@ from typing import Type
 from src.level import Level
 
 from .block import Block
-from .blockdude import BlockDude
+from .dude import Dude
 from .bottomwall import BottomWall
 from .exitdoor import ExitDoor
 from .ground import Ground
@@ -23,7 +23,7 @@ active_elements: tuple[Type[LevelElement], ...] = (
     BottomWall,
     TopBottomWall,
     Block,
-    BlockDude,
+    Dude,
     Ground,
     Space,
     ExitDoor,
@@ -32,7 +32,7 @@ active_elements: tuple[Type[LevelElement], ...] = (
 # Expose for better pep compliance
 __all__ = (
     "Block",
-    "BlockDude",
+    "Dude",
     "BottomWall",
     "ExitDoor",
     "Ground",
