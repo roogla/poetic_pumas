@@ -1,5 +1,5 @@
-from ..game.element_data import ElementData
-from ..game.physics import Movements, RigidBody
+from .element_data import ElementData
+from .physics import Movements, RigidBody
 
 
 class BlockDudeController(RigidBody):
