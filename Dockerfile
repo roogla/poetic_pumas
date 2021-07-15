@@ -5,12 +5,13 @@ FROM python:3.9.5-alpine
 # RUN python3 -m venv $VIRTUAL_ENV
 # ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-WORKDIR /src
+WORKDIR /
 
 # install dependencies
-COPY requirements.txt .
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-COPY src/ .
+COPY "src" .
+COPY "./blockdude.py" .
 
 # run app
-CMD [ "python", "./example.py" ]
+CMD [ "python", "./blockdude.py" ]
