@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from math import acos, inf, sqrt
-from typing import Union, Optional
+from typing import Optional, Union
 
 Numerics = Union[float, int]
 

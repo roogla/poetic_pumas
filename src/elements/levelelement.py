@@ -2,9 +2,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-# from .element_data import ElementData
-# from ..vector2D import Vector2D
-
 
 class LevelElement(ABC):
     """An abstract base class for all level elements.
@@ -40,17 +37,3 @@ class LevelElement(ABC):
         and print purposes.
         """
         return "?"
-
-    # def move_left(self, data: ElementData) -> None:
-    #     """Return the left-movement level element position according to its rules."""
-    #     position = data.level.get_element_position(self)
-    #     one_unit_leftward = position + Vector2D(-1, 0)
-    #     data.level.move_element(position, one_unit_leftward)
-    #     data.renderer.render_level(data.level)
-    #
-    # def move_right(self, data: ElementData) -> None:
-    #     """Return the left-movement level element position according to its rules."""
-    #     position = data.level.get_element_position(self)
-    #     one_unit_leftward = position + Vector2D(1, 0)
-    #     data.level.move_element(position, one_unit_leftward)
-    #     data.renderer.render_level(data.level)

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-
+from ..elements.space import is_space_element
+from .element_data import ElementData
 from .vector2D import Vector2D
-from .elements.element_data import ElementData
-from .elements.space import is_space_element
 
 
 class Movements:
+    """Movements class to hold all the basic movements"""
+
     LEFT = Vector2D(-1, 0)
     RIGHT = Vector2D(1, 0)
     UP = Vector2D(0, 1)
@@ -24,8 +25,14 @@ class RigidBody:
         return f"{self.__class__.__name__}({self.position})"
 
     def drop(self, data: ElementData, position: Vector2D) -> tuple[bool, Vector2D]:
+        """Applies drop
+
+        :param data: The element data
+        :param position: Position of the element
+        :return tuple of boolean successful drop and new position
+        """
         one_below = position + Movements.DOWN
-        while is_space_element(data.level.get_element_position(one_below)):
+        while is_space_element(data.level.get_element_at_position(one_below)):
             one_below.add(Movements.DOWN)
 
         new_position = one_below + Movements.UP
@@ -61,4 +68,3 @@ class RigidBody:
             self.position = destination
 
             data.renderer.render_level(data.level)
-

@@ -1,6 +1,8 @@
 from __future__ import annotations
-from . import elements
-from .elements import LevelElement
+
+from ..elements import ACTIVE_ELEMENTS
+from ..elements.levelelement import LevelElement
+
 """
 Level parser.
 
@@ -42,7 +44,7 @@ def convert_character_to_element(char: str) -> LevelElement:
     Returns:
         LevelElement: the object representation of the level element
     """
-    for element in elements.active_elements:
+    for element in ACTIVE_ELEMENTS:
         if element.level_symbol == char:
             return element()
     raise Exception(f"Invalid character in the level map: `{char}`.")

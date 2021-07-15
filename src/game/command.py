@@ -1,6 +1,6 @@
 from typing import Callable
 
-from elements import ElementData
+from .element_data import ElementData
 
 Command = Callable[[ElementData], None]
 
@@ -11,12 +11,12 @@ def do_nothing(data: ElementData) -> None:
 
 def move_left(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
-    data.level_element.move_left(data)
+    data.move_left()
 
 
 def move_right(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
-    data.level_element.move_right(data)
+    data.move_right()
 
 
 def interact(data: ElementData) -> None:

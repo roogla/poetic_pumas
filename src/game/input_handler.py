@@ -4,7 +4,7 @@ from blessed.keyboard import Keystroke
 
 from . import command as cmd
 from .command import Command
-from .elements.element_data import ElementData
+from .element_data import ElementData
 from .key import Key
 
 
