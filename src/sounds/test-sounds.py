@@ -1,11 +1,17 @@
 import os
+
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import sys
+
+# adapted from https://stackoverflow.com/questions/16480898
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 import time
 from string import ascii_lowercase as KEYS
 from random import choice
 from typing import Dict, Tuple
 from blessed import Terminal
 from pygame import mixer
+from src.soundboard import Soundboard
 
 
 def close():
@@ -13,6 +19,7 @@ def close():
     Closes the terminal and clears the screen
     """
     print(term.clear)
+    mixer.quit()
     sys.exit(0)
 
 
@@ -27,11 +34,9 @@ def load_sounds() -> Dict[str, Dict[str, mixer.Sound]]:
     :return: a dictionary with each key pointing to a tuple with the name of
     the file and the corresponding mixer.Sound object
     """
-    # filenames = [x for x in os.listdir('.') if x.endswith('.wav')]
-    # sound_objs = [mixer.Sound(x) for x in filenames]
     sounds = [
-        {"name": x, "sound": mixer.Sound(x)}
-        for x in os.listdir(".")
+        {"name": x, "sound": mixer.Sound(os.path.join(Soundboard.SFX_DIR, x))}
+        for x in sorted(os.listdir(Soundboard.SFX_DIR))
         if x.endswith(".wav")
     ]
     keys = []
@@ -40,14 +45,12 @@ def load_sounds() -> Dict[str, Dict[str, mixer.Sound]]:
         if k not in keys:
             keys.append(k)
 
-    keymap = {k: v for k, v in zip(keys, sounds)}
+    keymap = {k: v for k, v in zip(sorted(keys), sounds)}
     mixer.set_num_channels(len(sounds))
     return keymap
 
 
 if __name__ == "__main__":
-    # hide annoying pygame welcome message
-    os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
     term = Terminal()
     mixer.init()
     keymap = load_sounds()
@@ -57,7 +60,7 @@ if __name__ == "__main__":
         x, y = 0, 0
         sep = term.width // 6
         # Draw TUI
-        for k in keymap.keys():
+        for k in sorted(keymap.keys()):
             draw(x, y, f"{k}:{keymap[k]['name']}")
             x += sep
             if x > term.width - sep:
