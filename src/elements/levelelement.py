@@ -79,3 +79,11 @@ class LevelElement(ABC):
     def move_down(self, data: element_data.ElementData) -> None:
         """Return the up-movement level element position according to its rules."""
         self._default_move_by(data, Movement.DOWN)
+
+    def interact(self, data: element_data.ElementData) -> None:
+        """Generic interact method."""
+        pass
+
+    def box_action(self, data: element_data.ElementData) -> None:
+        """Box action interaction."""
+        pass
