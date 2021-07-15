@@ -68,3 +68,9 @@ class LevelElement(ABC):
         one_unit_leftward = position + Vector2D(0, 1)
         data.level.move_element(position, one_unit_leftward)
         data.renderer.render_level(data.level)
+
+    def interact(self, data: element_data.ElementData) -> None:
+        pass
+
+    def box_action(self, data: element_data.ElementData) -> None:
+        pass

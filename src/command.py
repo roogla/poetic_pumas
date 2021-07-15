@@ -21,6 +21,11 @@ def move_up(data:  ElementData) -> None:
 
 def interact(data: ElementData) -> None:
     """Interact using the specific level element."""
+    data.level_element.interact(data)
+
+def box_action(data: ElementData) -> None:
+    """Box interaction using the specific level element."""
+    data.level_element.box_action(data)
 
 def exit_terminal(data: ElementData) -> None:
     """Completely exit the script."""

@@ -15,6 +15,16 @@ class Key:
     SPACE = u" "
     q = u"q"
     Q = u"Q"
+    w = u"w"
+    W = u"W"
+    a = u"a"
+    A = u"A"
+    s = u"s"
+    S = u"S"
+    d = u"d"
+    D = u"D"
+    r = u"r"
+    R = u"R"
 
     def __init__(self, keystroke: Keystroke):
         self._keystroke = keystroke

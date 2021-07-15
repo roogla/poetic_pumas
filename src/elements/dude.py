@@ -1,4 +1,5 @@
 # from ..level import Level
+from src import elements
 from src.vector2D import Vector2D
 
 from .element_data import ElementData
@@ -20,6 +21,7 @@ class Dude(LevelElement):
     level_symbol = "D"
     face = { 'LEFT': '👈', 'RIGHT': '👉'}
     string_symbol = face['LEFT']
+    carrying = False
 
     def move(self, data: ElementData, direction: Movements) -> None:
         """Moves this level element laterally by some number of spaces given.
@@ -65,9 +67,34 @@ class Dude(LevelElement):
         self.move(data, Movements.LEFT)
 
     def move_right(self, data: ElementData) -> None:
-        """Move this level element leftward according to the rules.
+        """Move this level element rightward according to the rules.
 
         If there are any objects to the left of block dude, he cannot move left.
         """
         self.string_symbol = self.face['RIGHT']
         self.move(data, Movements.RIGHT)
+
+    def interact(self, data: ElementData) -> None:
+        pass
+
+    def box_action(self, data: ElementData) -> None:
+    
+        position = data.level.get_element_position(self)
+        if self.string_symbol == self.face['LEFT']:
+            lateral_position = position + Movements.LEFT
+        if self.string_symbol == self.face['RIGHT']:
+            lateral_position = position + Movements.RIGHT
+
+        lateral_element = data.level.get_element_at_position(lateral_position)
+        if self.carrying is False:
+            if isinstance(lateral_element, elements.Block):
+                data.level.move_element(lateral_position, position + Movements.UP)
+                self.carrying = True
+        if self.carrying is True:
+            if isinstance(lateral_element, elements.Space):
+                data.level.move_element(position + Movements.UP, lateral_position)
+                self.carrying = False
+
+        data.renderer.render_level(data.level)
+
+
