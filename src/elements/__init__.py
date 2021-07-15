@@ -1,9 +1,6 @@
 from __future__ import annotations
 
 from typing import Type
-
-from src.level import Level
-
 from .block import Block
 from .blockdude import BlockDude
 from .bottomwall import BottomWall
@@ -15,6 +12,7 @@ from .space import Space
 from .topbottomwall import TopBottomWall
 from .topwall import TopWall
 from .wall import Wall
+from .element_data import ElementData
 
 # All of the elements that will be used in the game layout.
 active_elements: tuple[Type[LevelElement], ...] = (
@@ -30,16 +28,17 @@ active_elements: tuple[Type[LevelElement], ...] = (
 )
 
 # Expose for better pep compliance
-__all__ = (
+__all__ = [
     "Block",
     "BlockDude",
     "BottomWall",
+    "ElementData",
     "ExitDoor",
     "Ground",
-    "Level",
+    "LevelElement",
     "NullElement",
     "Space",
     "TopBottomWall",
     "TopWall",
     "Wall",
-)
+]

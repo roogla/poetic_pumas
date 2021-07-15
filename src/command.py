@@ -1,6 +1,6 @@
 from typing import Callable
 
-from .elements.element_data import ElementData
+from elements import ElementData
 
 Command = Callable[[ElementData], None]
 

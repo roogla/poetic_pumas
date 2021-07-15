@@ -4,15 +4,16 @@ import itertools as it
 from pathlib import Path
 from typing import Generator, Union
 
-import src.elements as elements
-import src.level_parser as level_parser
-from src.vector2D import Vector2D
+from . import elements
+from . import level_parser
+from .vector2D import Vector2D
 
 
 class Level:
     """The level class containing the various level elements and related information."""
 
     def __init__(self, level_elements: level_parser.LevelElements):
+
         self.level_elements = level_elements
         self.active_element = self.get_main_character()
 

@@ -1,44 +1,64 @@
 from __future__ import annotations
 
-from typing import Union
 
-from src.vector2D import Vector2D
+from .vector2D import Vector2D
+from .elements.element_data import ElementData
+from .elements.space import is_space_element
+
+
+class Movements:
+    LEFT = Vector2D(-1, 0)
+    RIGHT = Vector2D(1, 0)
+    UP = Vector2D(0, 1)
+    DOWN = Vector2D(0, -1)
 
 
 class RigidBody:
     """Creates a RigitBody object. Utilizes Vector2D class"""
 
-    def __init__(self, x: Union[float, int], y: Union[float, int]):
-        self.pos = Vector2D(x, y)
-        self.velocity: Vector2D = Vector2D(0, 0)
-        self.accel: Vector2D = Vector2D(0, 0)
+    def __init__(self, x: int, y: int):
+        self.position = Vector2D(x, y)
+        self.facing: Vector2D = Movements.LEFT
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.pos})"
+        return f"{self.__class__.__name__}({self.position})"
 
-    def apply_movement(self, movement: Vector2D) -> None:
+    def drop(self, data: ElementData, position: Vector2D) -> tuple[bool, Vector2D]:
+        one_below = position + Movements.DOWN
+        while is_space_element(data.level.get_element_position(one_below)):
+            one_below.add(Movements.DOWN)
+
+        new_position = one_below + Movements.UP
+
+        if new_position == position:
+            return False, position
+
+        return True, new_position
+
+    def apply_movement(self, data: ElementData, movement: Vector2D) -> None:
         """
         Apply movement
 
         Applies the given movement to the body
+        :param data: the element data
         :param movement: The movement vector
         """
-        self.pos.add(movement)
+        """Moves this level element laterally by some number of spaces given.
 
-    def apply_force(self, force: Vector2D) -> None:
+        The number of spaces can be positive or negative.
         """
-        Apply Force
+        destination = self.position + movement
+        lateral_element = data.level.get_element_at_position(destination)
 
-        Applies the given force to the body
-        :param force: the force to be applied
-        """
-        self.accel.add(force)
+        if is_space_element(lateral_element):
 
-    def update(self) -> None:
-        """
-        Update body
+            status, new_destination = self.drop(data, destination)
 
-        Updates the body's position based on acceleration and velocity
-        """
-        self.velocity.add(self.accel)
-        self.pos.add(self.velocity)
+            if status:
+                destination = new_destination
+
+            data.level.move_element(self.position, destination)
+            self.position = destination
+
+            data.renderer.render_level(data.level)
+

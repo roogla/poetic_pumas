@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import src.elements.levelelement as levelelement
+from .levelelement import LevelElement
 # named this way to avoid conflict with var name in ElementData
-import src.level as lvl
-from src.renderer import Renderer
+from ..level import Level as lvl
+from ..renderer import Renderer
 
 
 @dataclass
@@ -16,6 +16,6 @@ class ElementData:
     and render appropriately.
     """
 
-    level: lvl.Level
+    level: lvl
     renderer: Renderer
-    level_element: levelelement.LevelElement
+    level_element: LevelElement

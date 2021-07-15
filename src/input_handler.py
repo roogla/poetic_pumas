@@ -13,8 +13,12 @@ class InputHandler:
 
     mapping: dict[Optional[str], Command] = {
         Key.LEFT: cmd.move_left,
+        Key.A: cmd.move_left,
+        Key.a: cmd.move_left,
         Key.SPACE: cmd.interact,
         Key.RIGHT: cmd.move_right,
+        Key.D: cmd.move_right,
+        Key.d: cmd.move_right,
         Key.ESCAPE: cmd.exit_terminal,
         Key.Q: cmd.exit_terminal,
         Key.q: cmd.exit_terminal,

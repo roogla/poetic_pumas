@@ -1,8 +1,8 @@
 from blessed import Terminal
 
-from .game import GameState
-from .level import create_level_from_file
-from .renderer import Renderer
+from game import GameState
+from level import create_level_from_file
+from renderer import Renderer
 
 # Timeout speed for inputs
 TIMEOUT = 0.1

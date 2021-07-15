@@ -9,7 +9,11 @@ class Key:
 
     UP = u"KEY_UP"
     LEFT = u"KEY_LEFT"
+    A = u"A"
+    a = u"a"
     DOWN = u"KEY_DOWN"
+    D = u"D"
+    d = u"d"
     RIGHT = u"KEY_RIGHT"
     ESCAPE = u"KEY_ESCAPE"
     SPACE = u" "

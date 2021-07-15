@@ -1,6 +1,6 @@
 from blessed.keyboard import Keystroke
 
-from .elements.element_data import ElementData
+from .elements import ElementData
 from .input_handler import InputHandler
 from .level import Level
 from .renderer import Renderer

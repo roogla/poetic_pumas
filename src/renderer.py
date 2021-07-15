@@ -38,7 +38,6 @@ class Renderer:
             level (lvl.Level): the level state
         """
         terminal = self.terminal
-        print(terminal.home + terminal.clear)
 
         # Center the level in the terminal
         top_padding = self.get_top_padding(level)
