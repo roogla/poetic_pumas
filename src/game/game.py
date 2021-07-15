@@ -23,7 +23,7 @@ class GameState:
         level_element = self.level.active_element
         # Package up data into a neat object
         element_data = ElementData(
-            level=self.level, renderer=self.renderer, level_element=level_element
+            level=self.level, level_element=level_element
         )
         self.input_handler.handle_input(keystroke, data=element_data)
 
@@ -34,3 +34,4 @@ class GameState:
             keystroke (Keystroke): user input on keyboard
         """
         self.process_input(keystroke)
+        self.renderer.render_level(self.level)

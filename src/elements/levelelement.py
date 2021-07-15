@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
+from ..game.vector2D import Vector2D
+
 
 class LevelElement(ABC):
     """An abstract base class for all level elements.
@@ -10,8 +12,8 @@ class LevelElement(ABC):
         ABC (): abstract base class helper class
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, x: int, y: int):
+        self.position = Vector2D(x=x, y=y)
 
     def __repr__(self) -> str:
         return self.__class__.__name__

@@ -4,9 +4,7 @@ import itertools as it
 from pathlib import Path
 from typing import Generator, Union
 
-from ..elements.blockdude_element import BlockDude
-from ..elements.null_element import NullElement
-from ..elements.space import Space
+from ..elements import BlockDude, NullElement
 from .level_parser import LevelElement, LevelElements, parse_text_level
 from .vector2D import Vector2D
 
@@ -18,7 +16,6 @@ class Level:
 
         self.level_elements = level_elements
         self.active_element = self.get_main_character()
-
         # All positions in a linear format; stretching out the level elements and assigning
         # the positions provides this.
         self._positions = self._generate_positions_on_elements(level_elements)
@@ -107,16 +104,6 @@ class Level:
         except IndexError:
             return NullElement()
 
-    def get_element_position(self, level_element: LevelElement) -> Vector2D:
-        """Determines the location of the level element."""
-        # TODO: If this process is inefficient, try caching elements to positions in a
-        # dictionary
-        for row_index, row in enumerate(self.level_elements):
-            for column_index, column in enumerate(row):
-                if column is level_element:
-                    return Vector2D(x=column_index, y=row_index)
-        raise RuntimeError(f"Element `{level_element}` was not found.")
-
     def set_element_at_position(
         self, level_element: LevelElement, position: Vector2D
     ) -> None:
@@ -126,17 +113,15 @@ class Level:
 
     def move_element(self, from_position: Vector2D, to_position: Vector2D) -> None:
         """Moves an element from a particular coordinate position to another."""
-        element = self.get_element_at_position(from_position)
-        from_y, from_x = int(from_position.y), int(from_position.x)
-        to_y, to_x = int(to_position.y), int(to_position.x)
+        from_element = self.get_element_at_position(from_position)
+        to_element = self.get_element_at_position(to_position)
 
-        self.level_elements[from_y][from_x] = Space()
-        self.level_elements[to_y][to_x] = element
+        self.set_element_at_position(from_element, to_position)
+        self.set_element_at_position(to_element, from_position)
 
     def get_main_character(self) -> LevelElement:
         """Gets the main character in the level."""
         MAIN_CHARACTER = BlockDude
-
         for element in it.chain.from_iterable(self.level_elements):
             # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.
             if isinstance(element, MAIN_CHARACTER):

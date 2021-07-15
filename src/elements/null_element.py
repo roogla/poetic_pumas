@@ -6,3 +6,6 @@ class NullElement(LevelElement):
 
     level_symbol = "?"
     string_symbol = "?"
+
+    def __init__(self):
+        super().__init__(-1, -1)

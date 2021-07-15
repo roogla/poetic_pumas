@@ -2,10 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ..elements.levelelement import LevelElement
+from ..elements import LevelElement
 from .level import Level
-from .renderer import Renderer
-from .vector2D import Vector2D
+from .physics import Movements, RigidBody
 
 
 @dataclass
@@ -17,19 +16,20 @@ class ElementData:
     """
 
     level: Level
-    renderer: Renderer
     level_element: LevelElement
 
     def move_left(self) -> None:
         """Return the left-movement level element position according to its rules."""
-        position = self.level.get_element_position(self.level_element)
-        one_unit_leftward = position + Vector2D(-1, 0)
-        self.level.move_element(position, one_unit_leftward)
-        self.renderer.render_level(self.level)
+        self.level_element.position = RigidBody.apply_movement(data=self, movement=Movements.LEFT)
 
     def move_right(self) -> None:
         """Return the left-movement level element position according to its rules."""
-        position = self.level.get_element_position(self.level_element)
-        one_unit_leftward = position + Vector2D(1, 0)
-        self.level.move_element(position, one_unit_leftward)
-        self.renderer.render_level(self.level)
+        self.level_element.position = RigidBody.apply_movement(data=self, movement=Movements.RIGHT)
+
+    def move_up(self) -> None:
+        """Return the left-movement level element position according to its rules."""
+        self.level_element.position = RigidBody.apply_movement(data=self, movement=Movements.UP)
+
+    def move_down(self) -> None:
+        """Return the left-movement level element position according to its rules."""
+        self.level_element.position = RigidBody.apply_movement(data=self, movement=Movements.DOWN)

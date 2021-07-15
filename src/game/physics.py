@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from ..elements.space import is_space_element
-from .element_data import ElementData
+from . import element_data
 from .vector2D import Vector2D
 
 
@@ -10,21 +10,15 @@ class Movements:
 
     LEFT = Vector2D(-1, 0)
     RIGHT = Vector2D(1, 0)
-    UP = Vector2D(0, 1)
-    DOWN = Vector2D(0, -1)
+    UP = Vector2D(0, -1)
+    DOWN = Vector2D(0, 1)
 
 
 class RigidBody:
-    """Creates a RigitBody object. Utilizes Vector2D class"""
+    """Imitates rigitbody movements on elements using statis methods. Utilizes Vector2D class"""
 
-    def __init__(self, x: int, y: int):
-        self.position = Vector2D(x, y)
-        self.facing: Vector2D = Movements.LEFT
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}({self.position})"
-
-    def drop(self, data: ElementData, position: Vector2D) -> tuple[bool, Vector2D]:
+    @staticmethod
+    def drop(data: element_data.ElementData, position: Vector2D) -> tuple[bool, Vector2D]:
         """Applies drop
 
         :param data: The element data
@@ -42,7 +36,8 @@ class RigidBody:
 
         return True, new_position
 
-    def apply_movement(self, data: ElementData, movement: Vector2D) -> None:
+    @staticmethod
+    def apply_movement(data: element_data.ElementData, movement: Vector2D) -> Vector2D:
         """
         Apply movement
 
@@ -54,17 +49,15 @@ class RigidBody:
 
         The number of spaces can be positive or negative.
         """
-        destination = self.position + movement
+        curr_position = data.level_element.position
+        destination = curr_position + movement
         lateral_element = data.level.get_element_at_position(destination)
 
         if is_space_element(lateral_element):
-
-            status, new_destination = self.drop(data, destination)
-
+            status, new_destination = RigidBody.drop(data, destination)
             if status:
                 destination = new_destination
+            data.level.move_element(curr_position, destination)
+            return destination
 
-            data.level.move_element(self.position, destination)
-            self.position = destination
-
-            data.renderer.render_level(data.level)
+        return curr_position

@@ -19,6 +19,11 @@ def move_right(data: ElementData) -> None:
     data.move_right()
 
 
+def move_up(data: ElementData) -> None:
+    """Attempt to move the level element upward."""
+    data.move_up()
+
+
 def interact(data: ElementData) -> None:
     """Interact using the specific level element."""
 
