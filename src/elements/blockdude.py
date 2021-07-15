@@ -10,7 +10,8 @@ class BlockDude(LevelElement):
     """Block Dude himself. The main character."""
 
     level_symbol = "D"
-    string_symbol = "🤷"
+    face = { 'left': '👈', 'right': '👉'}
+    string_symbol = face['left']
 
     def move_laterally(self, data: ElementData, spaces: int = 1) -> None:
         """Moves this level element laterally by some number of spaces given.
