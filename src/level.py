@@ -12,8 +12,7 @@ from .vector2D import Vector2D
 class Level:
     """The level class containing the various level elements and related information."""
 
-    def __init__(self, level_elements: LevelElements):
-
+    def __init__(self, level_elements: level_parser.LevelElements):
         self.level_elements = level_elements
         self.active_element = self.get_main_character()
         # All positions in a linear format; stretching out the level elements and assigning
@@ -136,14 +135,14 @@ def create_level_from_file(file_path: Union[str, Path]) -> Level:
         file_path (Path): the path is in the shape of "./levels/*.txt"
     """
     path = Path(__file__).parent / Path(file_path)
-    level_elements = parse_text_level(path)
+    level_elements = level_parser.parse_text_level(path)
     return Level(level_elements)
 
 
 # TODO: Testing purposes, remove in prod
 def test() -> None:
     """Remove in Prod."""
-    level = create_level_from_file("resources/levels/level-99.txt")
+    level = create_level_from_file("./levels/level-99.txt")
     print(str(level))
 
 

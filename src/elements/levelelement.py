@@ -38,4 +38,9 @@ class LevelElement(ABC):
         This is used to represent the element in the terminal for development
         and print purposes.
         """
-        return "?"
+        return self._string_symbol
+
+    @string_symbol.setter
+    def string_symbol(self, symbol: str) -> None:
+        """Setter function for the string symbol."""
+        self._string_symbol = symbol
