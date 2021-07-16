@@ -21,8 +21,6 @@ class GameState:
         self.renderer = renderer
         self.input_handler = InputHandler()
         self.soundboard = Soundboard()
-        self.exit_door = level.get_exit_door()
-        self.title = False
         self.current_level = 1
         self.level_dict = {
             0: "./resources/levels/level-0.txt",
@@ -40,20 +38,26 @@ class GameState:
 
     def game_state(self) -> None:
         """Checks near MAIN_CHARACTER position for exit door element"""
-        exit_left = (self.level.active_element.position + Vector2D(-1, 0))
-        exit_right = (self.level.active_element.position + Vector2D(1, 0))
+        exit_checks = [
+            self.level.active_element.position + Vector2D(-1, 0),
+            self.level.active_element.position + Vector2D(-1, -1),
+            self.level.active_element.position + Vector2D(1, -1),
+            self.level.active_element.position + Vector2D(1, 0),
+            self.level.active_element.position + Vector2D(-1, 1),
+            self.level.active_element.position + Vector2D(1, 1),
+            ]
 
         if self.current_level == 0:
             pass
         else:
-            if isinstance(self.level.get_element_at_position(exit_left), ExitDoor) or \
-                    isinstance(self.level.get_element_at_position(exit_right), ExitDoor):
-                if self.current_level == 10:
-                    print(f"{self.renderer.terminal.move_xy(0, 1)}YOU WIN! Enjoy this delicious cookie!")
-                else:
-                    print(f"{self.renderer.terminal.move_xy(0, 1)}Dude found the door!")
-                    self.current_level += 1
-                    self.level = create_level_from_file(self.level_dict[self.current_level])
+            for check in exit_checks:
+                if isinstance(self.level.get_element_at_position(check), ExitDoor):
+                    if self.current_level == 10:
+                        print(f"{self.renderer.terminal.move_xy(0, 1)}YOU WIN! Enjoy this delicious cookie!")
+                    else:
+                        print(f"{self.renderer.terminal.move_xy(0, 1)}Dude found the door!")
+                        self.current_level += 1
+                        self.level = create_level_from_file(self.level_dict[self.current_level])
 
     def check_state(self):
         """Checks for telekinesis block activation between MAIN_CHARACTER and TELE_BLOCK"""

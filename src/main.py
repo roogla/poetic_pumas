@@ -1,8 +1,10 @@
+
 from blessed import Terminal
 
 from .game import GameState
 from .level import create_level_from_file
 from .renderer import Renderer
+
 
 import os
 import sys
@@ -12,13 +14,13 @@ TIMEOUT = 0.06
 
 levels_folder = os.listdir(path='src/resources/levels/')
 
-def main(terminal: Terminal) -> None:
+def main(terminal: Terminal, level_num: str) -> None:
     """Main entry point and loop for the game."""
     # Necessary when running with Docker
     # Docker's terminal defaults to 8 colors
     terminal.number_of_colors = 1 << 24
 
-    starting_level = "level-1"
+    starting_level = f"{level_num}"
     if len(sys.argv) >= 2:
         if f'{sys.argv[1]}.txt' in levels_folder:
             starting_level = str(sys.argv[1])
@@ -37,4 +39,4 @@ def main(terminal: Terminal) -> None:
 
 
 if __name__ == "__main__":
-    main(Terminal())
+    main(Terminal(), "level-1")

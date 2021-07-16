@@ -1,5 +1,7 @@
 from typing import Callable
 
+from .level import create_level_from_file
+from .title import Title
 from .element_data import ElementData
 from .elements import BlockDude
 from .movement import Movement
@@ -43,5 +45,6 @@ def box_action(data: ElementData) -> None:
 
 
 def exit_terminal(data: ElementData) -> None:
-    """Completely exit the script."""
-    quit()
+    """returns to main screen"""
+    re_title = Title()
+    re_title.title()
