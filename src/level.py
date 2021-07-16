@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import itertools as it
 from pathlib import Path
-from typing import Generator, Union
+from typing import Generator, Type, Union
 
 from .elements import BlockDude, NullElement
 from .level_parser import LevelElement, LevelElements, parse_text_level
@@ -15,9 +15,6 @@ class Level:
     def __init__(self, level_elements: LevelElements):
         self.level_elements = level_elements
         self.active_element = self.get_main_character()
-        # All positions in a linear format; stretching out the level elements and assigning
-        # the positions provides this.
-        self._positions = self._generate_positions_on_elements(level_elements)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}{self.size}"
@@ -54,25 +51,6 @@ class Level:
         """
         return Level([row.copy() for row in self.level_elements])
 
-    def iterate_positions(self) -> Generator[Vector2D, None, None]:
-        """Iterate through the positions in the level from left to right, top to bottom."""
-        yield from iter(self._positions)
-
-    def _generate_positions_on_elements(
-        self, level_elements: LevelElements
-    ) -> tuple[Vector2D, ...]:
-        """Helper method called upon initialization to generate iterable of positions.
-
-        The positions of the elements go from top-left to bottom-right.
-        """
-        positions = []
-        for row_index, row in enumerate(level_elements):
-            positions_row = [
-                Vector2D(x=column_index, y=row_index) for column_index in range(len(row))
-            ]
-            positions.extend(positions_row)
-        return tuple(positions)
-
     def iterate_elements(self) -> Generator[LevelElement, None, None]:
         """Iterate through the elements of the level.
 
@@ -86,10 +64,9 @@ class Level:
         self_elements = it.chain.from_iterable(self.level_elements)
         other_elements = it.chain.from_iterable(other.level_elements)
 
-        iter_positions = iter(self.iterate_positions())
         positions: set[Vector2D] = set()
         for self_element, other_element in zip(self_elements, other_elements):
-            position = next(iter_positions)
+            position = self_element.position
             if self_element is other_element:
                 continue
             positions.add(position)
@@ -108,6 +85,7 @@ class Level:
     ) -> None:
         """Sets an element at a given position to another element."""
         y, x = int(position.y), int(position.x)
+        level_element.position = position
         self.level_elements[y][x] = level_element
 
     def move_element(self, from_position: Vector2D, to_position: Vector2D) -> None:
@@ -118,14 +96,26 @@ class Level:
         self.set_element_at_position(from_element, to_position)
         self.set_element_at_position(to_element, from_position)
 
+    def find_element(self, element: Type[LevelElement]) -> LevelElement:
+        """Finds elements
+
+        Tries to find element in level
+        :param element: The type of LevelElement to search for
+        :return The element if found
+        :raise LookupError if not element not found in level
+        """
+        for elem in it.chain.from_iterable(self.level_elements):
+            if isinstance(elem, element):
+                return elem
+        raise LookupError(f"No such element {element} in the level.")
+
     def get_main_character(self) -> LevelElement:
         """Gets the main character in the level."""
-        MAIN_CHARACTER = BlockDude
-        for element in it.chain.from_iterable(self.level_elements):
-            # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.
-            if isinstance(element, MAIN_CHARACTER):
-                return element
-        raise LookupError(f"No such element {MAIN_CHARACTER} in the level.")
+        return self.find_element(BlockDude)
+
+    def set_active_element(self, element: LevelElement) -> None:
+        """Set active element"""
+        self.active_element = element
 
 
 def create_level_from_file(file_path: Union[str, Path]) -> Level:

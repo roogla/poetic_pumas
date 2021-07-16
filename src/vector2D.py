@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from math import acos, inf, sqrt
-from typing import Optional, Union
+from math import acos, sqrt
+from typing import Union
 
 Numerics = Union[float, int]
 
@@ -9,42 +9,27 @@ Numerics = Union[float, int]
 class Vector2D:
     """2 Dimensional vector math class. Implements vector operations."""
 
-    def __init__(
-        self, x: Numerics = 0, y: Numerics = 0, scalar_limit: Optional[Numerics] = None
-    ):
-        self._x = x
-        self._y = y
-        # The magnitude of the scalar limit
-        if scalar_limit is None:
-            self.scalar_limit: Numerics = inf
-        else:
-            self.scalar_limit: Numerics = scalar_limit
+    def __init__(self, x: Numerics = 0, y: Numerics = 0):
+        self.x: Numerics = x
+        self.y: Numerics = y
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.x},{self.y})"
 
-    @property
-    def x(self) -> Numerics:
-        """Get x"""
-        return self._x
-
-    @property
-    def y(self) -> Numerics:
-        """Get y"""
-        return self._y
-
-    @x.setter
-    def x(self, value: Numerics) -> None:
-        """Set x"""
-        self._x = value
-
-    @y.setter
-    def y(self, value: Numerics) -> None:
-        """Set y"""
-        self._y = value
-
     def __eq__(self, other: Vector2D) -> bool:
         return self.x == other.x and self.y == other.y
+
+    def __lt__(self, other: Vector2D) -> bool:
+        return self.x < other.x and self.y < other.y
+
+    def __le__(self, other: Vector2D) -> bool:
+        return self < other or self == other
+
+    def __gt__(self, other: Vector2D) -> bool:
+        return self.x > other.x and self.y > other.y
+
+    def __ge__(self, other: Vector2D) -> bool:
+        return self > other or self == other
 
     def add(self, other: Vector2D) -> None:
         """
@@ -103,11 +88,6 @@ class Vector2D:
         in vector form A * n
         :param scalar: the scale multiplier
         """
-        if abs(scalar) > self.scalar_limit:
-            # the sign for the scalar (+1 or -1)
-            sign = abs(scalar) // scalar
-            scalar = sign * self.scalar_limit
-
         self.x *= scalar
         self.y *= scalar
 
@@ -173,15 +153,18 @@ class Vector2D:
         self.normalize()
         self.mul(mag)
 
-    def limit(self, limit: int) -> None:
+    def clamp(self, x1: int, y1: int, x2: int, y2: int) -> None:
         """
-        Limit vector magnitude
+        Clamps vector magnitude
 
-        limits the vector to an upperbound
-        :param limit: the limit to be set on vector
+        clamps the vector within an lower and an upperbound
+        :param x1: lower x value
+        :param y1: lower y value
+        :param x2: upper x value
+        :param y2: upper y value
         """
-        self.scalar_limit = limit
-        self.set_mag(self.scalar_limit)
+        self.x = x1 if self.x < x1 else x2 if self.x > x2 else self.x
+        self.y = y1 if self.y < y1 else y2 if self.y > y2 else self.y
 
     def dot(self, other: Vector2D) -> Numerics:
         """
