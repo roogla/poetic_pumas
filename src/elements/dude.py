@@ -115,3 +115,18 @@ class Dude(LevelElement):
                 self.carrying = False
 
         data.renderer.render_level(data.level)
+
+    def interact(self, data: ElementData) -> None:
+        """interact function that allows dude to use the telekenisis pads
+
+        also for now the player cannot interact while carrying but that could
+        change just remove the first if statement.
+        """
+        if self.carrying:
+            return
+    
+        position = data.level.get_element_position(self)
+        below = position + Movement.DOWN
+        bottom_element = data.level.get_element_at_position(below)
+        if isinstance(bottom_element, elements.TelekinesisPad):
+            data.level.change_main_character(elements.TelekinesisBlock)
