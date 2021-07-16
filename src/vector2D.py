@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from math import acos, inf, sqrt
-from typing import Union
+from typing import Optional, Union
 
 Numerics = Union[float, int]
 
@@ -10,7 +10,7 @@ class Vector2D:
     """2 Dimensional vector math class. Implements vector operations."""
 
     def __init__(
-        self, x: Numerics = 0, y: Numerics = 0, scalar_limit: Union[Numerics, None] = None
+        self, x: Numerics = 0, y: Numerics = 0, scalar_limit: Optional[Numerics] = None
     ):
         self._x = x
         self._y = y
@@ -42,6 +42,9 @@ class Vector2D:
     def y(self, value: Numerics) -> None:
         """Set y"""
         self._y = value
+
+    def __eq__(self, other: Vector2D) -> bool:
+        return self.x == other.x and self.y == other.y
 
     def add(self, other: Vector2D) -> None:
         """

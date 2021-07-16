@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from typing import Type
+
+from .elements import ACTIVE_ELEMENTS, LevelElement
+
 """
 Level parser.
 
@@ -7,8 +11,6 @@ Contains helper class and functions to read map layout files.
 """
 
 from pathlib import Path
-
-import src.elements as elements
 
 """Reference for level elements.
 
@@ -26,12 +28,12 @@ X -> exit/door
 # Custom type alias for grid of level elements.
 # Wrapped in try-block because of circular references.
 try:
-    LevelElements = list[list[elements.LevelElement]]
+    LevelElements = list[list[LevelElement]]
 except AttributeError:
     pass
 
 
-def convert_character_to_element(char: str) -> elements.LevelElement:
+def convert_character_to_element(char: str) -> Type[LevelElement]:
     """Converts a level ASCII character into a `LevelElement` object.
 
     Args:
@@ -43,9 +45,9 @@ def convert_character_to_element(char: str) -> elements.LevelElement:
     Returns:
         LevelElement: the object representation of the level element
     """
-    for element in elements.active_elements:
+    for element in ACTIVE_ELEMENTS:
         if element.level_symbol == char:
-            return element()
+            return element
     raise Exception(f"Invalid character in the level map: `{char}`.")
 
 
@@ -67,12 +69,12 @@ def parse_text_level(file_path: Path) -> LevelElements:
         level = [list(line.strip()) for line in fp.readlines()]
 
     level_elements = []
-    # TODO: Refactor for readability.
+
     for row_index, row in enumerate(level):
-        level_elements_row = [
-            convert_character_to_element(element)
-            for column_index, element in enumerate(row)
-        ]
+        level_elements_row = []
+        for column_index, cell in enumerate(row):
+            element: Type[LevelElement] = convert_character_to_element(cell)
+            level_elements_row.append(element(x=column_index, y=row_index))
         level_elements.append(level_elements_row)
 
     return level_elements

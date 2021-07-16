@@ -4,7 +4,7 @@ from blessed.keyboard import Keystroke
 
 from . import command as cmd
 from .command import Command
-from .elements.element_data import ElementData
+from .element_data import ElementData
 from .key import Key
 
 
@@ -15,8 +15,15 @@ class InputHandler:
         Key.UP: cmd.move_up,
         Key.DOWN: cmd.box_action,
         Key.LEFT: cmd.move_left,
+        Key.A: cmd.move_left,
+        Key.a: cmd.move_left,
         Key.SPACE: cmd.interact,
         Key.RIGHT: cmd.move_right,
+        Key.D: cmd.move_right,
+        Key.d: cmd.move_right,
+        Key.UP: cmd.move_up,
+        Key.W: cmd.move_up,
+        Key.w: cmd.move_up,
         Key.ESCAPE: cmd.exit_terminal,
         Key.Q: cmd.exit_terminal,
         Key.q: cmd.exit_terminal,

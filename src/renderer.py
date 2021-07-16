@@ -3,8 +3,8 @@ from __future__ import annotations
 from blessed import Terminal
 
 # named lvl to avoid namespace conflict with var names
-import src.level as lvl
-from src.vector2D import Vector2D
+from . import level as lvl
+from .vector2D import Vector2D
 
 
 class Renderer:
@@ -38,7 +38,6 @@ class Renderer:
             level (lvl.Level): the level state
         """
         terminal = self.terminal
-        print(terminal.home + terminal.clear)
 
         # Center the level in the terminal
         top_padding = self.get_top_padding(level)

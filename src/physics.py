@@ -1,44 +1,54 @@
 from __future__ import annotations
 
-from typing import Union
-
-from src.vector2D import Vector2D
+from . import element_data
+from .elements.space import is_space_element
+from .movement import Movement
+from .vector2D import Vector2D
 
 
 class RigidBody:
-    """Creates a RigitBody object. Utilizes Vector2D class"""
+    """Imitates rigitbody movements on elements using statis methods. Utilizes Vector2D class"""
 
-    def __init__(self, x: Union[float, int], y: Union[float, int]):
-        self.pos = Vector2D(x, y)
-        self.velocity: Vector2D = Vector2D(0, 0)
-        self.accel: Vector2D = Vector2D(0, 0)
+    @staticmethod
+    def drop(data: element_data.ElementData, position: Vector2D) -> Vector2D:
+        """Applies drop
 
-    def __repr__(self):
-        return f"{self.__class__.__name__}({self.pos})"
+        :param data: The element data
+        :param position: Position of the element
+        :return tuple of boolean successful drop and new position
+        """
+        one_below = position + Movement.DOWN
+        while is_space_element(data.level.get_element_at_position(one_below)):
+            one_below.add(Movement.DOWN)
 
-    def apply_movement(self, movement: Vector2D) -> None:
+        new_position = one_below + Movement.UP
+
+        return new_position
+
+    @staticmethod
+    def apply_movement(data: element_data.ElementData, movement: Vector2D) -> Vector2D:
         """
         Apply movement
 
         Applies the given movement to the body
+        :param data: the element data
         :param movement: The movement vector
         """
-        self.pos.add(movement)
+        """Moves this level element laterally by some number of spaces given.
 
-    def apply_force(self, force: Vector2D) -> None:
+        The number of spaces can be positive or negative.
         """
-        Apply Force
+        curr_position = data.level_element.position
+        destination = curr_position + movement
+        lateral_element = data.level.get_element_at_position(destination)
 
-        Applies the given force to the body
-        :param force: the force to be applied
-        """
-        self.accel.add(force)
+        if is_space_element(lateral_element):
+            data.soundboard.play_sfx("step")
+        else:
+            destination = curr_position
+            data.soundboard.play_sfx("bump")
 
-    def update(self) -> None:
-        """
-        Update body
+        destination = RigidBody.drop(data, destination)
+        data.level.move_element(curr_position, destination)
 
-        Updates the body's position based on acceleration and velocity
-        """
-        self.velocity.add(self.accel)
-        self.pos.add(self.velocity)
+        return destination
