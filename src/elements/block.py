@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from .levelelement import LevelElement
+from .levelelement import ControllableLevelElement
 
 
-class Block(LevelElement):
+class Block(ControllableLevelElement):
     """The basic block that Block Dude can interact with."""
 
     level_symbol = "B"

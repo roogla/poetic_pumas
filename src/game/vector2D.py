@@ -31,6 +31,9 @@ class Vector2D:
     def __ge__(self, other: Vector2D) -> bool:
         return self > other or self == other
 
+    def __hash__(self):
+        return hash((self.x, self.y))
+
     def add(self, other: Vector2D) -> None:
         """
         Vector addition

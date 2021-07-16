@@ -7,7 +7,7 @@ from .bottomwall import BottomWall
 from .dude import Dude
 from .exitdoor import ExitDoor
 from .ground import Ground
-from .levelelement import LevelElement
+from .levelelement import ControllableLevelElement, LevelElement
 from .null_element import NullElement
 from .space import Space
 from .topbottomwall import TopBottomWall
@@ -35,6 +35,7 @@ __all__ = [
     "Dude",
     "ExitDoor",
     "Ground",
+    "ControllableLevelElement",
     "LevelElement",
     "NullElement",
     "Space",
