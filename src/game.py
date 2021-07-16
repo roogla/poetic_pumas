@@ -4,6 +4,7 @@ from .element_data import ElementData
 from .input_handler import InputHandler
 from .level import Level
 from .renderer import Renderer
+from .soundboard import Soundboard
 
 
 class GameState:
@@ -17,14 +18,12 @@ class GameState:
         self.level = level
         self.renderer = renderer
         self.input_handler = InputHandler()
+        self.soundboard = Soundboard()
 
     def process_input(self, keystroke: Keystroke) -> None:
         """Takes the active element of the level and applies the input onto it."""
-        level_element = self.level.active_element
         # Package up data into a neat object
-        element_data = ElementData(
-            level=self.level, level_element=level_element
-        )
+        element_data = ElementData(level=self.level, soundboard=self.soundboard)
         self.input_handler.handle_input(keystroke, data=element_data)
 
     def update(self, keystroke: Keystroke) -> None:

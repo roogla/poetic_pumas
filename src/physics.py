@@ -1,17 +1,9 @@
 from __future__ import annotations
 
-from .elements.space import is_space_element
 from . import element_data
+from .elements.space import is_space_element
+from .movement import Movement
 from .vector2D import Vector2D
-
-
-class Movements:
-    """Movements class to hold all the basic movements"""
-
-    LEFT = Vector2D(-1, 0)
-    RIGHT = Vector2D(1, 0)
-    UP = Vector2D(0, -1)
-    DOWN = Vector2D(0, 1)
 
 
 class RigidBody:
@@ -25,11 +17,11 @@ class RigidBody:
         :param position: Position of the element
         :return tuple of boolean successful drop and new position
         """
-        one_below = position + Movements.DOWN
+        one_below = position + Movement.DOWN
         while is_space_element(data.level.get_element_at_position(one_below)):
-            one_below.add(Movements.DOWN)
+            one_below.add(Movement.DOWN)
 
-        new_position = one_below + Movements.UP
+        new_position = one_below + Movement.UP
 
         return new_position
 
@@ -51,8 +43,12 @@ class RigidBody:
         lateral_element = data.level.get_element_at_position(destination)
 
         if is_space_element(lateral_element):
-            destination = RigidBody.drop(data, destination)
-            data.level.move_element(curr_position, destination)
-            return destination
+            data.soundboard.play_sfx("step")
+        else:
+            destination = curr_position
+            data.soundboard.play_sfx("bump")
 
-        return curr_position
+        destination = RigidBody.drop(data, destination)
+        data.level.move_element(curr_position, destination)
+
+        return destination

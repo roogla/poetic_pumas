@@ -1,0 +1,14 @@
+Notes on possible usage:
+
+blip - menu select move
+bump - action/player blocked
+enter1 - menu enter, go back, etc
+pickup_* - pickup/jump sounds
+step - character step (if we want...)
+thud - place box, maybe also menu select sounds?
+powerup1 - telekinesis
+powerup2 - teleport
+win - winning sound!
+
+
+All sounds made with sfxr.me and musescore

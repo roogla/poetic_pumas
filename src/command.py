@@ -1,6 +1,8 @@
 from typing import Callable
 
 from .element_data import ElementData
+from .elements import BlockDude
+from .movement import Movement
 
 Command = Callable[[ElementData], None]
 
@@ -11,17 +13,25 @@ def do_nothing(data: ElementData) -> None:
 
 def move_left(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
+    if isinstance(data.level.active_element, BlockDude):
+        data.level.active_element.facing = Movement.LEFT
     data.move_left()
 
 
 def move_right(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
+    if isinstance(data.level.active_element, BlockDude):
+        data.level.active_element.facing = Movement.RIGHT
     data.move_right()
 
 
 def move_up(data: ElementData) -> None:
     """Attempt to move the level element upward."""
-    data.move_up()
+    # TODO check if element is player or block
+    # IF player
+    data.jump()
+    # else if block
+    # data.move_up()
 
 
 def interact(data: ElementData) -> None:

@@ -143,7 +143,7 @@ def create_level_from_file(file_path: Union[str, Path]) -> Level:
 # TODO: Testing purposes, remove in prod
 def test() -> None:
     """Remove in Prod."""
-    level = create_level_from_file("levels/level-99.txt")
+    level = create_level_from_file("resources/levels/level-99.txt")
     print(str(level))
 
 
