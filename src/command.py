@@ -46,5 +46,6 @@ def box_action(data: ElementData) -> None:
 
 def exit_terminal(data: ElementData) -> None:
     """returns to main screen"""
+    create_level_from_file("./resources/levels/level-1.txt")
     re_title = Title()
     re_title.title()
