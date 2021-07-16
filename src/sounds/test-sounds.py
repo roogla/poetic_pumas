@@ -8,7 +8,7 @@ from typing import Dict
 from blessed import Terminal
 from pygame import mixer
 
-from src.soundboard import Soundboard
+from src.game.soundboard import Soundboard
 
 # adapted from https://stackoverflow.com/questions/16480898
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"

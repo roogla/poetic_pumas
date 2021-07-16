@@ -4,7 +4,8 @@ import itertools as it
 from pathlib import Path
 from typing import Generator, Union
 
-from .elements import BlockDude, NullElement
+from src.elements import Dude, NullElement
+
 from .level_parser import LevelElement, LevelElements, parse_text_level
 from .vector2D import Vector2D
 
@@ -108,6 +109,7 @@ class Level:
     ) -> None:
         """Sets an element at a given position to another element."""
         y, x = int(position.y), int(position.x)
+        level_element.position = position
         self.level_elements[y][x] = level_element
 
     def move_element(self, from_position: Vector2D, to_position: Vector2D) -> None:
@@ -120,7 +122,7 @@ class Level:
 
     def get_main_character(self) -> LevelElement:
         """Gets the main character in the level."""
-        MAIN_CHARACTER = BlockDude
+        MAIN_CHARACTER = Dude
         for element in it.chain.from_iterable(self.level_elements):
             # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.
             if isinstance(element, MAIN_CHARACTER):
@@ -128,23 +130,14 @@ class Level:
         raise LookupError(f"No such element {MAIN_CHARACTER} in the level.")
 
 
-def create_level_from_file(file_path: Union[str, Path]) -> Level:
+def create_level_from_file(
+    level_file_name: Union[str, Path], levels_directory: Union[str, Path]
+) -> Level:
     """Returns a `Level` object from the level layout filepath.
 
     Args:
         file_path (Path): the path is in the shape of "./levels/*.txt"
     """
-    path = Path(__file__).parent / Path(file_path)
+    path = Path(levels_directory) / Path(level_file_name)
     level_elements = parse_text_level(path)
     return Level(level_elements)
-
-
-# TODO: Testing purposes, remove in prod
-def test() -> None:
-    """Remove in Prod."""
-    level = create_level_from_file("./levels/level-99.txt")
-    print(str(level))
-
-
-if __name__ == "__main__":
-    test()

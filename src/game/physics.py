@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from src.elements.space import is_space_element
+
 from . import element_data
-from .elements.space import is_space_element
 from .movement import Movement
 from .vector2D import Vector2D
 

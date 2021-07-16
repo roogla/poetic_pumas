@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from ..vector2D import Vector2D
+from src.game.vector2D import Vector2D
 
 
 class LevelElement(ABC):

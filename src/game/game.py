@@ -23,7 +23,11 @@ class GameState:
     def process_input(self, keystroke: Keystroke) -> None:
         """Takes the active element of the level and applies the input onto it."""
         # Package up data into a neat object
-        element_data = ElementData(level=self.level, soundboard=self.soundboard)
+        element_data = ElementData(
+            level=self.level,
+            soundboard=self.soundboard,
+            renderer=self.renderer,
+        )
         self.input_handler.handle_input(keystroke, data=element_data)
 
     def update(self, keystroke: Keystroke) -> None:

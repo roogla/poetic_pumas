@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from .elements import LevelElement, Space
+from src.elements import Space
+
 from .level import Level
 from .movement import Movement
 from .physics import RigidBody
+from .renderer import Renderer
 from .soundboard import Soundboard
 
 
@@ -14,10 +16,11 @@ class ElementData:
     and render appropriately.
     """
 
-    def __init__(self, level: Level, soundboard: Soundboard):
-        self.level: Level = level
-        self.level_element: LevelElement = level.active_element
-        self.soundboard: Soundboard = soundboard
+    def __init__(self, level: Level, soundboard: Soundboard, renderer: Renderer):
+        self.level = level
+        self.level_element = level.active_element
+        self.soundboard = soundboard
+        self.renderer = renderer
 
     def move_left(self) -> None:
         """Return the left-movement level element position according to its rules."""
