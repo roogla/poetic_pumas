@@ -7,7 +7,7 @@ from .vector2D import Vector2D
 class Camera(Level):
     """The camera app"""
 
-    _RADII: Vector2D = Vector2D(6, 9)
+    _RADII: Vector2D = Vector2D(9, 6)
 
     def get_renderable_elements(self) -> list[list[LevelElement]]:
         """
