@@ -134,11 +134,14 @@ class DudeController(Controller):
         lateral_element = get_lateral_of_active(data)
         head_element = get_head_of_active(data)
 
-        if not is_clear_for_action(lateral_element) or (
-            is_clear_for_action(lateral_element, head_element) and not self.carrying
-        ):
-            up_and_lateral_position = facing + Movement.UP
-            self.move(data, up_and_lateral_position)
+        if not is_clear_for_action(lateral_element):
+            el = data.level.get_element_at_position(head_element.position + Movement.UP)
+            if not self.carrying and is_clear_for_action(head_element, el):
+                up_and_lateral_position = facing + Movement.UP
+                self.move(data, up_and_lateral_position)
+            elif self.carrying:
+                up_and_lateral_position = facing + Movement.UP
+                self.move(data, up_and_lateral_position)
 
     def box_action(self, data: element_data.ElementData) -> None:
         """The box action as picking up or dropping."""
