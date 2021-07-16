@@ -4,6 +4,7 @@ from blessed import Terminal
 
 # named lvl to avoid namespace conflict with var names
 from . import level as lvl
+from .camera import Camera
 from .vector2D import Vector2D
 
 
@@ -15,6 +16,7 @@ class Renderer:
         # The history of level states.
         self.level_states: list[lvl.Level] = [level.shallow_copy]
         self.level_origin: Vector2D = Vector2D(0, 0)
+        self.camera = Camera(level.level_elements)
 
     @property
     def previous_level_state(self) -> lvl.Level:
@@ -44,7 +46,7 @@ class Renderer:
         left_padding = self.get_left_padding(level)
 
         # Print the level into the terminal
-        for row in level.level_elements:
+        for row in self.camera.get_renderable_elements():
             cursor = terminal.move_xy(x=left_padding, y=top_padding)
             stringified_elements = [str(element) for element in row]
             stringified_row = "".join(stringified_elements)

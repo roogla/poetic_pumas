@@ -15,14 +15,16 @@ def do_nothing(data: ElementData) -> None:
 def move_left(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
     if isinstance(data.level.active_element, Dude):
-        data.level.active_element.facing = Movement.LEFT
+        # TODO: Remove type ignore comment; move to controller class
+        data.level.active_element.facing = Movement.LEFT  # type: ignore
     data.move_left()
 
 
 def move_right(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
     if isinstance(data.level.active_element, Dude):
-        data.level.active_element.facing = Movement.RIGHT
+        # TODO: Remove type ignore comment; move to controller class
+        data.level.active_element.facing = Movement.RIGHT  # type: ignore
     data.move_right()
 
 
@@ -41,7 +43,8 @@ def interact(data: ElementData) -> None:
 
 def box_action(data: ElementData) -> None:
     """Box action placeholder."""
-    data.level_element.box_action(data)
+    # TODO: Remove type ignore comment; move to controller class
+    data.level_element.box_action(data)  # type: ignore
 
 
 def exit_terminal(data: ElementData) -> None:

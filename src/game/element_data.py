@@ -48,7 +48,8 @@ class ElementData:
 
     def jump(self) -> None:
         """Implements player jump movement"""
-        facing = self.level_element.facing
+        # TODO: Remove type ignore comment; move to controller class
+        facing = self.level_element.facing  # type: ignore
         position = self.level_element.position
         if not isinstance(self.level.get_element_at_position(position + facing), Space):
             lateral_position = facing + Movement.UP
