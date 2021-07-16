@@ -4,7 +4,7 @@ import itertools as it
 from pathlib import Path
 from typing import Generator, Type, Union
 
-from src.elements import Dude, NullElement
+from src.elements import ControllableLevelElement, Dude, NullElement
 
 from .level_parser import LevelElement, LevelElements, parse_text_level
 from .vector2D import Vector2D
@@ -15,7 +15,7 @@ class Level:
 
     def __init__(self, level_elements: LevelElements):
         self.level_elements = level_elements
-        self.active_element = self.get_main_character()
+        self.active_element: ControllableLevelElement = self.get_main_character()
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}{self.size}"
@@ -110,11 +110,11 @@ class Level:
                 return elem
         raise LookupError(f"No such element {element} in the level.")
 
-    def get_main_character(self) -> LevelElement:
+    def get_main_character(self) -> ControllableLevelElement:
         """Gets the main character in the level."""
-        return self.find_element(Dude)
+        return self.find_element(Dude)  # type: ignore
 
-    def set_active_element(self, element: LevelElement) -> None:
+    def set_active_element(self, element: ControllableLevelElement) -> None:
         """Set active element"""
         self.active_element = element
 

@@ -19,16 +19,13 @@ class GameState:
         self.renderer = renderer
         self.input_handler = InputHandler()
         self.soundboard = Soundboard()
+        self.element_data = ElementData(level=self.level, soundboard=self.soundboard)
 
     def process_input(self, keystroke: Keystroke) -> None:
         """Takes the active element of the level and applies the input onto it."""
         # Package up data into a neat object
-        element_data = ElementData(
-            level=self.level,
-            soundboard=self.soundboard,
-            renderer=self.renderer,
-        )
-        self.input_handler.handle_input(keystroke, data=element_data)
+
+        self.input_handler.handle_input(keystroke, data=self.element_data)
 
     def update(self, keystroke: Keystroke) -> None:
         """Process the game on every looped update call.

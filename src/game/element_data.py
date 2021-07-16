@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from src.elements import Space
+from contextlib import contextmanager
+from typing import Iterator
+
+from src.elements.levelelement import ControllableLevelElement
 
 from .level import Level
-from .movement import Movement
-from .physics import RigidBody
-from .renderer import Renderer
 from .soundboard import Soundboard
 
 
@@ -16,43 +16,24 @@ class ElementData:
     and render appropriately.
     """
 
-    def __init__(self, level: Level, soundboard: Soundboard, renderer: Renderer):
+    def __init__(self, level: Level, soundboard: Soundboard):
         self.level = level
-        self.level_element = level.active_element
         self.soundboard = soundboard
-        self.renderer = renderer
 
-    def move_left(self) -> None:
-        """Return the left-movement level element position according to its rules."""
-        self.level_element.position = RigidBody.apply_movement(
-            data=self, movement=Movement.LEFT
-        )
+    @property
+    def active_element(self) -> ControllableLevelElement:
+        """The level active element."""
+        return self.level.active_element
 
-    def move_right(self) -> None:
-        """Return the left-movement level element position according to its rules."""
-        self.level_element.position = RigidBody.apply_movement(
-            data=self, movement=Movement.RIGHT
-        )
+    @active_element.setter
+    def active_element(self, element: ControllableLevelElement) -> None:
+        """Set the level active element."""
+        self.level.set_active_element(element)
 
-    def move_up(self) -> None:
-        """Return the left-movement level element position according to its rules."""
-        self.level_element.position = RigidBody.apply_movement(
-            data=self, movement=Movement.UP
-        )
-
-    def move_down(self) -> None:
-        """Return the left-movement level element position according to its rules."""
-        self.level_element.position = RigidBody.apply_movement(
-            data=self, movement=Movement.DOWN
-        )
-
-    def jump(self) -> None:
-        """Implements player jump movement"""
-        # TODO: Remove type ignore comment; move to controller class
-        facing = self.level_element.facing  # type: ignore
-        position = self.level_element.position
-        if not isinstance(self.level.get_element_at_position(position + facing), Space):
-            lateral_position = facing + Movement.UP
-            self.level_element.position = RigidBody.apply_movement(
-                data=self, movement=lateral_position
-            )
+    @contextmanager
+    def setting_active_element(self, element: ControllableLevelElement) -> Iterator:
+        """Set the level active element."""
+        prev_element = self.active_element
+        self.level.set_active_element(element)
+        yield
+        self.level.set_active_element(prev_element)
