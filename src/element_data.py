@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ..elements import LevelElement
+from .elements import LevelElement
 from .level import Level
 from .physics import Movements, RigidBody
 

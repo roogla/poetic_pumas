@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ..elements.space import is_space_element
+from .elements.space import is_space_element
 from . import element_data
 from .vector2D import Vector2D
 
@@ -18,7 +18,7 @@ class RigidBody:
     """Imitates rigitbody movements on elements using statis methods. Utilizes Vector2D class"""
 
     @staticmethod
-    def drop(data: element_data.ElementData, position: Vector2D) -> tuple[bool, Vector2D]:
+    def drop(data: element_data.ElementData, position: Vector2D) -> Vector2D:
         """Applies drop
 
         :param data: The element data
@@ -31,10 +31,7 @@ class RigidBody:
 
         new_position = one_below + Movements.UP
 
-        if new_position == position:
-            return False, position
-
-        return True, new_position
+        return new_position
 
     @staticmethod
     def apply_movement(data: element_data.ElementData, movement: Vector2D) -> Vector2D:
@@ -54,9 +51,7 @@ class RigidBody:
         lateral_element = data.level.get_element_at_position(destination)
 
         if is_space_element(lateral_element):
-            status, new_destination = RigidBody.drop(data, destination)
-            if status:
-                destination = new_destination
+            destination = RigidBody.drop(data, destination)
             data.level.move_element(curr_position, destination)
             return destination
 

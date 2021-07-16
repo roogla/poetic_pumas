@@ -4,7 +4,7 @@ import itertools as it
 from pathlib import Path
 from typing import Generator, Union
 
-from ..elements import BlockDude, NullElement
+from .elements import BlockDude, NullElement
 from .level_parser import LevelElement, LevelElements, parse_text_level
 from .vector2D import Vector2D
 
@@ -143,7 +143,7 @@ def create_level_from_file(file_path: Union[str, Path]) -> Level:
 # TODO: Testing purposes, remove in prod
 def test() -> None:
     """Remove in Prod."""
-    level = create_level_from_file("../levels/level-99.txt")
+    level = create_level_from_file("levels/level-99.txt")
     print(str(level))
 
 
