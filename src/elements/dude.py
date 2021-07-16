@@ -129,4 +129,4 @@ class Dude(LevelElement):
         below = position + Movement.DOWN
         bottom_element = data.level.get_element_at_position(below)
         if isinstance(bottom_element, elements.TelekinesisPad):
-            data.level.change_main_character(elements.TelekinesisBlock)
+            data.level.set_active_element(elements.TelekinesisBlock)

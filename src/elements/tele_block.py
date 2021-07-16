@@ -79,5 +79,5 @@ class TelekinesisBlock(LevelElement):
         Also drops the block before so that it doesn't float
         """
         self.drop(data)
-        data.level.change_main_character(elements.Dude)
+        data.level.set_active_element(elements.Dude)
         
