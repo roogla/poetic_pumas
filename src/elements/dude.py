@@ -1,9 +1,9 @@
 # from ..level import Level
 from src import elements
+from src.element_data import ElementData
 from src.movement import Movement
 from src.vector2D import Vector2D
 
-from .element_data import ElementData
 from .levelelement import LevelElement
 from .space import is_space_element
 

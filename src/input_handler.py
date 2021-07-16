@@ -34,7 +34,7 @@ class InputHandler:
         Key.s: cmd.box_action,
         Key.S: cmd.box_action,
         Key.d: cmd.move_right,
-        Key.D: cmd.move_right
+        Key.D: cmd.move_right,
     }
 
     def __init__(self) -> None:

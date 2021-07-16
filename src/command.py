@@ -38,6 +38,10 @@ def interact(data: ElementData) -> None:
     """Interact using the specific level element."""
 
 
+def box_action(data: ElementData) -> None:
+    """Box action placeholder."""
+
+
 def exit_terminal(data: ElementData) -> None:
     """Completely exit the script."""
     quit()
