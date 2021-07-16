@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Type
 
 from .block import Block
+from .blockdude_element import BlockDude
 from .bottomwall import BottomWall
-from .dude import Dude
 from .exitdoor import ExitDoor
 from .ground import Ground
 from .levelelement import LevelElement
@@ -21,7 +21,7 @@ ACTIVE_ELEMENTS: tuple[Type[LevelElement], ...] = (
     BottomWall,
     TopBottomWall,
     Block,
-    Dude,
+    BlockDude,
     Ground,
     Space,
     ExitDoor,
@@ -31,8 +31,8 @@ ACTIVE_ELEMENTS: tuple[Type[LevelElement], ...] = (
 __all__ = [
     "ACTIVE_ELEMENTS",
     "Block",
+    "BlockDude",
     "BottomWall",
-    "Dude",
     "ExitDoor",
     "Ground",
     "LevelElement",

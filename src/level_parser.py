@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Type
 
-from src.elements import ACTIVE_ELEMENTS, LevelElement
+from .elements import ACTIVE_ELEMENTS, LevelElement
 
 """
 Level parser.

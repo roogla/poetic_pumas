@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-from src.elements import Space
-
+from .elements import LevelElement, Space
 from .level import Level
 from .movement import Movement
 from .physics import RigidBody
-from .renderer import Renderer
 from .soundboard import Soundboard
 
 
@@ -16,11 +14,10 @@ class ElementData:
     and render appropriately.
     """
 
-    def __init__(self, level: Level, soundboard: Soundboard, renderer: Renderer):
-        self.level = level
-        self.level_element = level.active_element
-        self.soundboard = soundboard
-        self.renderer = renderer
+    def __init__(self, level: Level, soundboard: Soundboard):
+        self.level: Level = level
+        self.level_element: LevelElement = level.active_element
+        self.soundboard: Soundboard = soundboard
 
     def move_left(self) -> None:
         """Return the left-movement level element position according to its rules."""
@@ -48,8 +45,7 @@ class ElementData:
 
     def jump(self) -> None:
         """Implements player jump movement"""
-        # TODO: Remove type ignore comment; move to controller class
-        facing = self.level_element.facing  # type: ignore
+        facing = self.level_element.facing
         position = self.level_element.position
         if not isinstance(self.level.get_element_at_position(position + facing), Space):
             lateral_position = facing + Movement.UP

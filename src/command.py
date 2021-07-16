@@ -1,8 +1,7 @@
 from typing import Callable
 
-from src.elements import Dude
-
 from .element_data import ElementData
+from .elements import BlockDude
 from .movement import Movement
 
 Command = Callable[[ElementData], None]
@@ -14,17 +13,15 @@ def do_nothing(data: ElementData) -> None:
 
 def move_left(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
-    if isinstance(data.level.active_element, Dude):
-        # TODO: Remove type ignore comment; move to controller class
-        data.level.active_element.facing = Movement.LEFT  # type: ignore
+    if isinstance(data.level.active_element, BlockDude):
+        data.level.active_element.facing = Movement.LEFT
     data.move_left()
 
 
 def move_right(data: ElementData) -> None:
     """Attempt to move the level element leftward."""
-    if isinstance(data.level.active_element, Dude):
-        # TODO: Remove type ignore comment; move to controller class
-        data.level.active_element.facing = Movement.RIGHT  # type: ignore
+    if isinstance(data.level.active_element, BlockDude):
+        data.level.active_element.facing = Movement.RIGHT
     data.move_right()
 
 
@@ -43,8 +40,6 @@ def interact(data: ElementData) -> None:
 
 def box_action(data: ElementData) -> None:
     """Box action placeholder."""
-    # TODO: Remove type ignore comment; move to controller class
-    data.level_element.box_action(data)  # type: ignore
 
 
 def exit_terminal(data: ElementData) -> None:

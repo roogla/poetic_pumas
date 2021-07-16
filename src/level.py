@@ -2,20 +2,24 @@ from __future__ import annotations
 
 import itertools as it
 from pathlib import Path
-from typing import Generator, Type, Union
+from typing import Generator, Union
 
-from src.elements import Dude, NullElement
-
-from .level_parser import LevelElement, LevelElements, parse_text_level
-from .vector2D import Vector2D
+import src.elements as elements
+import src.level_parser as level_parser
+from src.elements import BlockDude, LevelElement, NullElement
+from src.vector2D import Vector2D
 
 
 class Level:
     """The level class containing the various level elements and related information."""
 
-    def __init__(self, level_elements: LevelElements):
+    def __init__(self, level_elements: level_parser.LevelElements):
         self.level_elements = level_elements
         self.active_element = self.get_main_character()
+
+        # All positions in a linear format; stretching out the level elements and assigning
+        # the positions provides this.
+        self._positions = self._generate_positions_on_elements(level_elements)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}{self.size}"
@@ -52,6 +56,25 @@ class Level:
         """
         return Level([row.copy() for row in self.level_elements])
 
+    def iterate_positions(self) -> Generator[Vector2D, None, None]:
+        """Iterate through the positions in the level from left to right, top to bottom."""
+        yield from iter(self._positions)
+
+    def _generate_positions_on_elements(
+        self, level_elements: level_parser.LevelElements
+    ) -> tuple[Vector2D, ...]:
+        """Helper method called upon initialization to generate iterable of positions.
+
+        The positions of the elements go from top-left to bottom-right.
+        """
+        positions = []
+        for row_index, row in enumerate(level_elements):
+            positions_row = [
+                Vector2D(x=column_index, y=row_index) for column_index in range(len(row))
+            ]
+            positions.extend(positions_row)
+        return tuple(positions)
+
     def iterate_elements(self) -> Generator[LevelElement, None, None]:
         """Iterate through the elements of the level.
 
@@ -65,15 +88,16 @@ class Level:
         self_elements = it.chain.from_iterable(self.level_elements)
         other_elements = it.chain.from_iterable(other.level_elements)
 
+        iter_positions = iter(self.iterate_positions())
         positions: set[Vector2D] = set()
         for self_element, other_element in zip(self_elements, other_elements):
-            position = self_element.position
+            position = next(iter_positions)
             if self_element is other_element:
                 continue
             positions.add(position)
         return positions
 
-    def get_element_at_position(self, position: Vector2D) -> LevelElement:
+    def get_element_at_position(self, position: Vector2D) -> elements.LevelElement:
         """Determines which element is lcoated at a particular position."""
         try:
             y, x = int(position.y), int(position.x)
@@ -86,7 +110,6 @@ class Level:
     ) -> None:
         """Sets an element at a given position to another element."""
         y, x = int(position.y), int(position.x)
-        level_element.position = position
         self.level_elements[y][x] = level_element
 
     def move_element(self, from_position: Vector2D, to_position: Vector2D) -> None:
@@ -97,36 +120,42 @@ class Level:
         self.set_element_at_position(from_element, to_position)
         self.set_element_at_position(to_element, from_position)
 
-    def find_element(self, element: Type[LevelElement]) -> LevelElement:
-        """Finds elements
-
-        Tries to find element in level
-        :param element: The type of LevelElement to search for
-        :return The element if found
-        :raise LookupError if not element not found in level
-        """
-        for elem in it.chain.from_iterable(self.level_elements):
-            if isinstance(elem, element):
-                return elem
-        raise LookupError(f"No such element {element} in the level.")
-
     def get_main_character(self) -> LevelElement:
         """Gets the main character in the level."""
-        return self.find_element(Dude)
+        MAIN_CHARACTER = BlockDude
+        for element in it.chain.from_iterable(self.level_elements):
+            # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.
+            if isinstance(element, MAIN_CHARACTER):
+                return element
+        raise LookupError(f"No such element {MAIN_CHARACTER} in the level.")
 
-    def set_active_element(self, element: LevelElement) -> None:
-        """Set active element"""
-        self.active_element = element
+    def get_exit_door(self) -> elements.LevelElement:
+        """Gets the main character in the level."""
+        EXIT_DOOR = elements.ExitDoor
+        for element in it.chain.from_iterable(self.level_elements):
+            # TODO: Probably bad design. Too lazy to think right now. Strongly coupled.
+            if isinstance(element, EXIT_DOOR):
+                return element
+        raise LookupError(f"No such element {EXIT_DOOR} in the level.")
 
 
-def create_level_from_file(
-    level_file_name: Union[str, Path], levels_directory: Union[str, Path]
-) -> Level:
+def create_level_from_file(file_path: Union[str, Path]) -> Level:
     """Returns a `Level` object from the level layout filepath.
 
     Args:
         file_path (Path): the path is in the shape of "./levels/*.txt"
     """
-    path = Path(levels_directory) / Path(level_file_name)
-    level_elements = parse_text_level(path)
+    path = Path(__file__).parent / Path(file_path)
+    level_elements = level_parser.parse_text_level(path)
     return Level(level_elements)
+
+
+# TODO: Testing purposes, remove in prod
+def test() -> None:
+    """Remove in Prod."""
+    level = create_level_from_file("./levels/level-99.txt")
+    print(str(level))
+
+
+if __name__ == "__main__":
+    test()

@@ -12,22 +12,29 @@ class InputHandler:
     """Handles the input to action commands."""
 
     mapping: dict[Optional[str], Command] = {
-        Key.W: cmd.move_up,
-        Key.w: cmd.move_up,
         Key.UP: cmd.move_up,
+        Key.DOWN: cmd.box_action,
+        Key.LEFT: cmd.move_left,
         Key.A: cmd.move_left,
         Key.a: cmd.move_left,
-        Key.LEFT: cmd.move_left,
+        Key.SPACE: cmd.interact,
+        Key.RIGHT: cmd.move_right,
         Key.D: cmd.move_right,
         Key.d: cmd.move_right,
-        Key.RIGHT: cmd.move_right,
-        # Key.S: cmd.box_action,
-        # Key.s: cmd.box_action,
-        # Key.DOWN: cmd.box_action,
-        Key.SPACE: cmd.interact,
+        Key.UP: cmd.move_up,
+        Key.W: cmd.move_up,
+        Key.w: cmd.move_up,
+        Key.ESCAPE: cmd.exit_terminal,
         Key.Q: cmd.exit_terminal,
         Key.q: cmd.exit_terminal,
-        Key.ESCAPE: cmd.exit_terminal,
+        Key.w: cmd.move_up,
+        Key.W: cmd.move_up,
+        Key.a: cmd.move_left,
+        Key.A: cmd.move_left,
+        Key.s: cmd.box_action,
+        Key.S: cmd.box_action,
+        Key.d: cmd.move_right,
+        Key.D: cmd.move_right,
     }
 
     def __init__(self) -> None:

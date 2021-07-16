@@ -1,12 +1,12 @@
-from __future__ import annotations
-
-import src.game.element_data as element_data
+# from ..level import Level
 from src import elements
-from src.game.movement import Movement
-from src.game.vector2D import Vector2D
+from src.element_data import ElementData
+from src.movement import Movement
+from src.vector2D import Vector2D
 
 from .levelelement import LevelElement
 from .space import is_space_element
+
 
 
 class Dude(LevelElement):
@@ -19,8 +19,7 @@ class Dude(LevelElement):
     }
     string_symbol = face["LEFT"]
 
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
+    def __init__(self):
         # Whether the Level Element is carrying a block
         self.carrying = False
 
@@ -42,12 +41,13 @@ class Dude(LevelElement):
         """Changes the direction of the level element to face rightward symbolically."""
         self.string_symbol = self.face["RIGHT"]
 
-    def move(self, data: element_data.ElementData, direction: Vector2D) -> None:
+    def move(self, data: ElementData, direction: Vector2D) -> None:
         """Moves this level element laterally by some number of spaces given.
 
         The number of spaces can be positive or negative.
         """
-        lateral_position = self.position + direction
+        position = data.level.get_element_position(self)
+        lateral_position = position + direction
         lateral_element = data.level.get_element_at_position(lateral_position)
         destination = lateral_position
 
@@ -55,31 +55,32 @@ class Dude(LevelElement):
             destination = lateral_position
             data.soundboard.play_sfx("step")
         else:
-            destination = self.position
+            destination = position
             data.soundboard.play_sfx("bump")
 
-        data.level.move_element(self.position, destination)
+        data.level.move_element(position, destination)
         self.drop(data)
         data.renderer.render_level(data.level)
 
-    def drop(self, data: element_data.ElementData) -> None:
+    def drop(self, data: ElementData) -> None:
         """Drop this level element down if hanging over space."""
-        below = self.position + Movement.DOWN
+        position = data.level.get_element_position(self)
+        below = position + Movement.DOWN
         while is_space_element(data.level.get_element_at_position(below)):
             below.add(Movement.DOWN)
 
         destination = below + Movement.UP
 
-        data.level.move_element(self.position, destination)
+        data.level.move_element(position, destination)
 
-    def move_up(self, data: element_data.ElementData) -> None:
+    def move_up(self, data: ElementData) -> None:
         """Move this level element upward according to the rules."""
         if self.string_symbol == self.face["LEFT"]:
             self.move(data, Movement.UP + Movement.LEFT)
         if self.string_symbol == self.face["RIGHT"]:
             self.move(data, Movement.UP + Movement.RIGHT)
 
-    def move_left(self, data: element_data.ElementData) -> None:
+    def move_left(self, data: ElementData) -> None:
         """Move this level element leftward according to the rules.
 
         If there are any objects to the left of block dude, he cannot move left.
@@ -87,7 +88,7 @@ class Dude(LevelElement):
         self.set_facing_left()
         self.move(data, Movement.LEFT)
 
-    def move_right(self, data: element_data.ElementData) -> None:
+    def move_right(self, data: ElementData) -> None:
         """Move this level element rightward according to the rules.
 
         If there are any objects to the left of block dude, he cannot move left.
@@ -95,22 +96,23 @@ class Dude(LevelElement):
         self.set_facing_right()
         self.move(data, Movement.RIGHT)
 
-    def box_action(self, data: element_data.ElementData) -> None:
+    def box_action(self, data: ElementData) -> None:
         """The box action."""
+        position = data.level.get_element_position(self)
         lateral_position = Vector2D(0, 0)
         if self.is_facing_left:
-            lateral_position = self.position + Movement.LEFT
+            lateral_position = position + Movement.LEFT
         if self.is_facing_right:
-            lateral_position = self.position + Movement.RIGHT
+            lateral_position = position + Movement.RIGHT
 
         lateral_element = data.level.get_element_at_position(lateral_position)
         if self.carrying is False:
             if isinstance(lateral_element, elements.Block):
-                data.level.move_element(lateral_position, self.position + Movement.UP)
+                data.level.move_element(lateral_position, position + Movement.UP)
                 self.carrying = True
         if self.carrying is True:
             if isinstance(lateral_element, elements.Space):
-                data.level.move_element(self.position + Movement.UP, lateral_position)
+                data.level.move_element(position + Movement.UP, lateral_position)
                 self.carrying = False
 
         data.renderer.render_level(data.level)
