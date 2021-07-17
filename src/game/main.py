@@ -54,7 +54,7 @@ def main(terminal: Terminal, level_num: str = None) -> None:
     renderer = Renderer(terminal=terminal, level=level)
     gamestate = GameState(level=level, renderer=renderer)
 
-    gamestate.current_level = int(level_num[-1])
+    gamestate.current_level = int(level_num.split("-")[1])
 
     with terminal.cbreak(), terminal.hidden_cursor(), terminal.fullscreen():
         renderer.render_level(level)
@@ -62,14 +62,13 @@ def main(terminal: Terminal, level_num: str = None) -> None:
         while True:
             keystroke = terminal.inkey(timeout=TIMEOUT)
             if gamestate.end_game:
-                gamestate = None
-                renderer = None
                 break
             elif keystroke:
                 gamestate.update(keystroke)
 
-    end_game = create_level_from_file("./resources/levels/level-99.txt")
-    renderer.render_level(end_game)
+    for columns in range(renderer.terminal.width):
+        for row in range(renderer.terminal.height):
+            print(f"{renderer.terminal.normal} ")
     end_game = Title()
     end_game.display_logo()
     print(f"{renderer.terminal.move_xy(8, 8)} CONGRATULATIONS, YOU'VE WON THE GAME!")

@@ -27,7 +27,7 @@ class GameState:
         self.soundboard = Soundboard()
         self.element_data = ElementData(level=self.level, soundboard=self.soundboard)
         self.end_game = False
-        self.current_level = 11
+        self.current_level = 0
         self.level_dict = {
             1: "level-1.txt",
             2: "level-2.txt",
