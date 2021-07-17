@@ -42,7 +42,7 @@ def main(terminal: Terminal) -> None:
     gamestate = GameState(level=level, renderer=renderer)
 
     with terminal.cbreak(), terminal.hidden_cursor(), terminal.fullscreen():
-        renderer.render_level(level)
+        renderer.render_level()
 
         while True:
             keystroke = terminal.inkey(timeout=TIMEOUT)

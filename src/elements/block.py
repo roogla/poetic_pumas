@@ -8,4 +8,3 @@ class Block(ControllableLevelElement):
 
     level_symbol = "B"
     string_symbol = "🟩"
-    lifted = False

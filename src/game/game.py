@@ -34,4 +34,4 @@ class GameState:
             keystroke (Keystroke): user input on keyboard
         """
         self.process_input(keystroke)
-        self.renderer.render_level(self.level)
+        self.renderer.render_level()

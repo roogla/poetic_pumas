@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from math import acos, sqrt
 from typing import Union
 
 Numerics = Union[float, int]
@@ -109,6 +108,18 @@ class Vector2D:
         new_vector.mul(scalar)
         return new_vector
 
+    def __floordiv__(self, scalar: Numerics) -> Vector2D:
+        """
+        Floor divide vector operation
+
+        Divides the vector into floored version
+        :param scalar: the scale multiplier
+        :return: the scaled vector
+        """
+        if scalar == 0:
+            raise ZeroDivisionError("Scalar cannot be zero")
+        return Vector2D(self.x // scalar, self.y // scalar)
+
     def div(self, scalar: Numerics) -> None:
         """
         Vector division in place
@@ -118,90 +129,24 @@ class Vector2D:
         :param scalar: the scale multiplier
         """
         if scalar == 0:
-            raise ZeroDivisionError("Scaler cannot be zero")
+            raise ZeroDivisionError("Scalar cannot be zero")
 
         self.x /= scalar
         self.y /= scalar
 
-    def magnitude(self) -> float:
+    def __truediv__(self, scalar: Numerics) -> Vector2D:
         """
-        Vector magnitude
+        True dividion vector operation
 
-        Calculates the magnitude of the vector
-        in vector form |A|
-        :return: Magnitude of the instance vector
+        Divides the vector into floored version
+        :param scalar: the scale multiplier
+        :return: the scaled vector
         """
-        return sqrt(self.x ** 2 + self.y ** 2)
-
-    def normalize(self) -> None:
-        """
-        Vector normalization
-
-        Normalizes the instance vector
-        if magnitude is 0, exits safely
-        """
-        mag = self.magnitude()
-        try:
-            self.div(mag)
-        except ZeroDivisionError:
-            pass
-
-    def set_mag(self, mag: int) -> None:
-        """
-        Set vector magnitude
-
-        Sets the magnitude of the vector
-        :param mag: the new magnitude of the vector
-        """
-        self.normalize()
-        self.mul(mag)
-
-    def clamp(self, x1: int, y1: int, x2: int, y2: int) -> None:
-        """
-        Clamps vector magnitude
-
-        clamps the vector within an lower and an upperbound
-        :param x1: lower x value
-        :param y1: lower y value
-        :param x2: upper x value
-        :param y2: upper y value
-        """
-        self.x = x1 if self.x < x1 else x2 if self.x > x2 else self.x
-        self.y = y1 if self.y < y1 else y2 if self.y > y2 else self.y
-
-    def dot(self, other: Vector2D) -> Numerics:
-        """
-        Dot product
-
-        dot product of two vectors
-        in vector form A • B
-        :param other: other 2D vector
-        :return: the value of A • B
-        """
-        return self.x * other.x + self.y * other.y
-
-    def cross(self, other: Vector2D) -> Numerics:
-        """
-        z-component cross product
-
-        z-component of cross product of two vectors
-        in vector form of A × B
-        :param other: other 2D vector
-        :return: value of A × B
-        """
-        return self.x * other.y - other.x * self.y
-
-    def angle_between(self, other: Vector2D) -> float:
-        """
-        Angle between vectors
-
-        calculates the angle between two 2 Dimensional vectors
-        :param other: the other vector
-        :return: the angle between the A and B
-        """
-        dot = self.dot(other)
-        mag = self.magnitude() + other.magnitude()
-        return acos(dot / mag)
+        if scalar == 0:
+            raise ZeroDivisionError("Scalar cannot be zero")
+        new_vector = self.copy()
+        new_vector.div(scalar=scalar)
+        return new_vector
 
     def copy(self) -> Vector2D:
         """
