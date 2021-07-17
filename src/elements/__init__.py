@@ -13,12 +13,16 @@ from .space import Space
 from .topbottomwall import TopBottomWall
 from .topwall import TopWall
 from .wall import Wall
+from .tele_pad import TelekinesisPad
+from .tele_block import TelekinesisBlock
 
 # All of the elements that will be used in the game layout.
 ACTIVE_ELEMENTS: tuple[Type[LevelElement], ...] = (
     Wall,
     TopWall,
     BottomWall,
+    TelekinesisBlock,
+    TelekinesisPad,
     TopBottomWall,
     Block,
     Dude,
@@ -39,6 +43,8 @@ __all__ = [
     "LevelElement",
     "NullElement",
     "Space",
+    "TelekinesisBlock",
+    "TelekinesisPad",
     "TopBottomWall",
     "TopWall",
     "Wall",

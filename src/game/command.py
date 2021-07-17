@@ -31,7 +31,7 @@ def move_up(data: ElementData) -> None:
 
 def interact(data: ElementData) -> None:
     """Interact using the specific level element."""
-
+    data.active_element.interact(data)
 
 def box_action(data: ElementData) -> None:
     """Box action placeholder."""

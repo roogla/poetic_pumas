@@ -83,3 +83,8 @@ class ControllableLevelElement(LevelElement):
         If there are any objects to the left of block dude, he cannot move left.
         """
         self.controller.move_down(data)
+
+    def interact(self, data: element_data.ElementData) -> None:
+        """Enable the interact function of the controller
+        """
+        self.controller.interact(data)

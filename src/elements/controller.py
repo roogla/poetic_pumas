@@ -50,6 +50,9 @@ class Controller:
         If there are any objects to the left of block dude, he cannot move left.
         """
         self._move(data, Movement.DOWN)
+    
+    def interact(self, data: element_data.ElementData) -> None:
+        pass
 
 
 def get_head_of_active(data: element_data.ElementData) -> elements.LevelElement:
@@ -170,3 +173,49 @@ class DudeController(Controller):
     def move_down(self, data: element_data.ElementData) -> None:
         """Move down action from command."""
         self.box_action(data)
+
+    def interact(self, data: element_data.ElementData) -> None:
+        if self.carrying:
+            return
+    
+        position = data.level.active_element.position
+        below = position + Movement.DOWN
+        bottom_element = data.level.get_element_at_position(below)
+        if isinstance(bottom_element, elements.TelekinesisPad):
+            block = data.level.find_element(elements.TelekinesisBlock)
+            data.level.set_active_element(block)
+
+
+class TelekinesisController(Controller):
+    
+    def _move(
+        self,
+        data: element_data.ElementData,
+        direction: Vector2D,
+    ) -> None:
+        """movement function without rigid body so that the cube can float"""
+        position = data.level.active_element.position
+        lateral_position = position + direction
+        lateral_element = data.level.get_element_at_position(lateral_position)
+        destination = lateral_position
+
+        if isinstance(lateral_element, elements.Space):
+            destination = lateral_position
+        else:
+            destination = position
+        
+        data.level.move_element(position, destination)
+
+    def interact(self, data: element_data.ElementData):
+        """Gives the controls back to blockdude
+        
+        Also drops the block before so that it doesn't float
+        """
+        position = data.level.active_element.position
+        below = position + Movement.DOWN
+        while isinstance(data.level.get_element_at_position(below),elements.Space):
+            below += Movement.DOWN
+        
+        data.level.move_element(position, below+Movement.UP)  
+        dude = data.level.find_element(elements.Dude)
+        data.level.set_active_element(dude)
