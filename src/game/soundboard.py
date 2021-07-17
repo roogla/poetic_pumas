@@ -13,7 +13,6 @@ class Soundboard:
     MUSIC_DIR = os.path.join(".", "src", "sounds", "music")
 
     def __init__(self):
-        # TODO: self.sfx, self.music =
         mixer.init()
         self.sfx, self.music = self.load_sounds()
         self.play_music("blockdude")
@@ -44,8 +43,7 @@ class Soundboard:
 
     def get_loaded_sounds(self) -> List[str]:
         """Returns a list of all currently loaded sounds by filename"""
-        # TODO: add music
-        return list(self.sfx.keys())
+        return list(self.sfx.keys()) + list(self.music.keys())
 
     def play_sfx(self, name: str) -> None:
         """Play a file by name, (no extension)

@@ -157,12 +157,14 @@ class DudeController(Controller):
                 RigidBody.move_element_to_destination(
                     data, head_element.position, lateral_element
                 )
+                data.soundboard.play_sfx("pickup_square")
                 self.carrying = lateral_element
         else:
             # top lateral position is empty space, drop it
             if is_clear_for_action(top_lateral_element):
                 facing = data.active_element.facing
                 RigidBody.move_element(data, facing, self.carrying)
+                data.soundboard.play_sfx("thud")
                 self.carrying = None
 
     def move_down(self, data: element_data.ElementData) -> None:
