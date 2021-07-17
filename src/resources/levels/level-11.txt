@@ -1,11 +1,11 @@
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W..W...W....................W
 W.....BWBB............WWWWW.W
-WB...WWW.BWW.....B..WW..X.W.W
+WB...WWW.BWW.....B..WW....W.W
 WBB....WWW...D..B.......W.W.W
 WWW..BBW.....W.B..........W.W
 W...WWWW......W..WWW...WWW..W
-WB............W.W......W..B.W
+WB........X...W.W......W..B.W
 WBB.......WWW.W.WB.....W..B.W
 WWWW.B...WWW..W.WWB..W.B.W..W
 W...........B.WWW..BW...W...W

@@ -61,19 +61,18 @@ def main(terminal: Terminal, level_num: str = None) -> None:
 
         while True:
             keystroke = terminal.inkey(timeout=TIMEOUT)
-            if gamestate.game_state():
+            if gamestate.end_game:
                 gamestate = None
                 renderer = None
                 break
             elif keystroke:
                 gamestate.update(keystroke)
 
-    if gamestate.current_level == 11:
-        end_game = create_level_from_file("./resources/levels/level-99.txt")
-        renderer.render_level(end_game)
-        end_game = Title()
-        end_game.display_logo()
-        print(f"{renderer.terminal.move_xy(8, 8)} CONGRATULATIONS, YOU'VE WON THE GAME!")
+    end_game = create_level_from_file("./resources/levels/level-99.txt")
+    renderer.render_level(end_game)
+    end_game = Title()
+    end_game.display_logo()
+    print(f"{renderer.terminal.move_xy(8, 8)} CONGRATULATIONS, YOU'VE WON THE GAME!")
 
 
 if __name__ == "__main__":

@@ -26,7 +26,8 @@ class GameState:
         self.input_handler = InputHandler()
         self.soundboard = Soundboard()
         self.element_data = ElementData(level=self.level, soundboard=self.soundboard)
-        self.current_level = 1
+        self.end_game = False
+        self.current_level = 11
         self.level_dict = {
             1: "level-1.txt",
             2: "level-2.txt",
@@ -53,24 +54,21 @@ class GameState:
             self.level.active_element.position + Vector2D(1, 1),
         ]
 
-        if self.current_level == 0:
-            pass
-        else:
-            for check in exit_checks:
-                if isinstance(self.level.get_element_at_position(check), ExitDoor):
-                    if self.current_level == 11:
-                        return True
-                    else:
-                        self.current_level += 1
-                        self.level = create_level_from_file(
-                            level_file_name=self.level_dict[self.current_level],
-                            levels_directory=Path(__file__).parent.parent / Path("resources/levels"))
-                        self.renderer.terminal.move_xy(0, 0)
-                        for columns in range(self.renderer.terminal.width):
-                            for row in range(self.renderer.terminal.height):
-                                print(f"{self.renderer.terminal.normal} ")
-                        self.renderer = Renderer(terminal=Terminal(), level=self.level)
-                        self.element_data = ElementData(level=self.level, soundboard=self.soundboard)
+        for check in exit_checks:
+            if isinstance(self.level.get_element_at_position(check), ExitDoor):
+                if self.current_level == 11:
+                    self.end_game = True
+                else:
+                    self.current_level += 1
+                    self.level = create_level_from_file(
+                        level_file_name=self.level_dict[self.current_level],
+                        levels_directory=Path(__file__).parent.parent / Path("resources/levels"))
+                    self.renderer.terminal.move_xy(0, 0)
+                    for columns in range(self.renderer.terminal.width):
+                        for row in range(self.renderer.terminal.height):
+                            print(f"{self.renderer.terminal.normal} ")
+                    self.renderer = Renderer(terminal=Terminal(), level=self.level)
+                    self.element_data = ElementData(level=self.level, soundboard=self.soundboard)
 
     def process_input(self, keystroke: Keystroke) -> None:
         """Takes the active element of the level and applies the input onto it."""
