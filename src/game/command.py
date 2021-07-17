@@ -1,6 +1,7 @@
 from typing import Callable
 
 from .element_data import ElementData
+import os
 
 Command = Callable[[ElementData], None]
 
@@ -41,4 +42,6 @@ def box_action(data: ElementData) -> None:
 
 def exit_terminal(data: ElementData) -> None:
     """Completely exit the script."""
-    quit()
+    data.level = ""
+    data.level_element = ""
+    os.system('py blockdude.py')
