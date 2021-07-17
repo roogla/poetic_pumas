@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Iterable, Optional, Union
+from typing import Optional
 
 import src.elements as elements
 import src.game.element_data as element_data
@@ -93,6 +93,7 @@ class DudeController(Controller):
     """Block Dude controller with its rules."""
 
     def __init__(self):
+        super().__init__()
         self.carrying: Optional[elements.ControllableLevelElement] = None
 
     def move(
@@ -100,9 +101,10 @@ class DudeController(Controller):
         data: element_data.ElementData,
         direction: Vector2D,
     ) -> None:
+        """Moves the selected element around the map"""
         # Move the carrying block as well
         top_lateral_element = get_top_lateral_of_active(data)
-        lateral_element = get_lateral_of_active(data)
+        # lateral_element = get_lateral_of_active(data)
 
         position = RigidBody.move_element(data, direction, data.active_element)
 

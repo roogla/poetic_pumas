@@ -37,7 +37,6 @@ class RigidBody:
 
         Applies the given movement to the body
         :param data: the element data
-        :param element_position: the position of the element that we wish to move
         :param movement: The movement vector
         """
         return RigidBody.move_element(data, movement, data.active_element)
@@ -47,7 +46,6 @@ class RigidBody:
         data: element_data.ElementData, movement: Vector2D, element: elements.LevelElement
     ) -> Vector2D:
         """Apply movement to an element."""
-
         destination = element.position + movement
         destination_element = data.level.get_element_at_position(destination)
 
@@ -69,7 +67,6 @@ class RigidBody:
         element: elements.LevelElement,
     ) -> Vector2D:
         """Apply movement to an element."""
-
         destination_element = data.level.get_element_at_position(destination)
 
         if elements.space.is_space_element(destination_element):
