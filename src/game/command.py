@@ -1,7 +1,11 @@
+import os
+import sys
 from typing import Callable
 
 from .element_data import ElementData
-import os
+
+# TODO REMOVE FOR PRODUCTION
+import sys, traceback, threading
 
 Command = Callable[[ElementData], None]
 
@@ -40,8 +44,14 @@ def box_action(data: ElementData) -> None:
     data.level_element.box_action(data)  # type: ignore
 
 
+def level_reset(data: ElementData) -> None:
+    pass
+
+
 def exit_terminal(data: ElementData) -> None:
     """Completely exit the script."""
-    data.level = ""
-    data.level_element = ""
-    os.system('py blockdude.py')
+    while 1:
+        interpreter = sys.executable
+        os.system(f'{interpreter} blockdude.py')
+        print("restarting")
+        exit()

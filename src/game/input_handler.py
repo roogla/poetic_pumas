@@ -28,6 +28,8 @@ class InputHandler:
         Key.Q: cmd.exit_terminal,
         Key.q: cmd.exit_terminal,
         Key.ESCAPE: cmd.exit_terminal,
+        Key.R: cmd.level_reset,
+        Key.r: cmd.level_reset,
     }
 
     def __init__(self) -> None:

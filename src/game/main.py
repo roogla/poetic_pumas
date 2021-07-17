@@ -14,6 +14,11 @@ TIMEOUT = 0.1
 
 levels_folder = os.listdir(path="src/resources/levels/")
 
+def clean_exit():
+    while 1:
+        interpreter = sys.executable
+        os.system(f"{interpreter} blockdude.py")
+        exit()
 
 def starting_level_from_script_args() -> str:
     """Takes the Python script input to jump to a particular level.
@@ -38,12 +43,18 @@ def main(terminal: Terminal, level_num: str = None) -> None:
         starting_level = starting_level_from_script_args()
 
     # initalize game vars
-    level = create_level_from_file(
-        level_file_name=f"{starting_level}.txt",
-        levels_directory=Path(__file__).parent.parent / Path("resources/levels"),
-    )
+    try:
+        level = create_level_from_file(
+            level_file_name=f"{starting_level}.txt",
+            levels_directory=Path(__file__).parent.parent / Path("resources/levels"),
+        )
+    except FileNotFoundError:
+        clean_exit()
+
     renderer = Renderer(terminal=terminal, level=level)
     gamestate = GameState(level=level, renderer=renderer)
+
+    gamestate.current_level = int(level_num[-1])
 
     with terminal.cbreak(), terminal.hidden_cursor(), terminal.fullscreen():
         renderer.render_level(level)
@@ -57,12 +68,12 @@ def main(terminal: Terminal, level_num: str = None) -> None:
             elif keystroke:
                 gamestate.update(keystroke)
 
-    if gamestate.current_level == 10:
+    if gamestate.current_level == 11:
         end_game = create_level_from_file("./resources/levels/level-99.txt")
         renderer.render_level(end_game)
         end_game = Title()
         end_game.display_logo()
-        print(f"{renderer.terminal.move_xy(8, 8)} YOU'VE WON THE GAME!")
+        print(f"{renderer.terminal.move_xy(8, 8)} CONGRATULATIONS, YOU'VE WON THE GAME!")
 
 
 if __name__ == "__main__":
