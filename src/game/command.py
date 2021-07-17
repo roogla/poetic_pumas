@@ -1,4 +1,6 @@
 from typing import Callable
+import sys
+import os
 
 from .element_data import ElementData
 
@@ -42,4 +44,8 @@ def box_action(data: ElementData) -> None:
 
 def exit_terminal(data: ElementData) -> None:
     """Completely exit the script."""
-    quit()
+    while 1:
+        interpreter = sys.executable
+        os.system(f'{interpreter} blockdude.py')
+        print("restarting")
+        exit()
