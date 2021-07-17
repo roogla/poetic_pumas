@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import Type
 
 from .elements import ACTIVE_ELEMENTS, LevelElement
+import os
+
 
 """
 Level parser.
@@ -64,9 +66,13 @@ def parse_text_level(file_path: Path) -> LevelElements:
         LevelElements: a 2D grid of level elements
     """
     level: list[list[str]] = []
-    with open(file_path) as fp:
-        # remove the "\n" characters
-        level = [list(line.strip()) for line in fp.readlines()]
+    try:
+        with open(file_path) as fp:
+            # remove the "\n" characters
+            level = [list(line.strip()) for line in fp.readlines()]
+    except OSError as e:
+        os.system('py blockdude.py')
+
 
     level_elements = []
 

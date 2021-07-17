@@ -9,6 +9,7 @@ from .soundboard import Soundboard
 from src.vector2D import Vector2D
 from .elements.exitdoor import ExitDoor
 
+
 class GameState:
     """Overall game state.
 
@@ -21,7 +22,7 @@ class GameState:
         self.renderer = renderer
         self.input_handler = InputHandler()
         self.soundboard = Soundboard()
-        self.current_level = 1
+        self.current_level = 10
         self.level_dict = {
             0: "./resources/levels/level-0.txt",
             1: "./resources/levels/level-1.txt",
@@ -53,9 +54,8 @@ class GameState:
             for check in exit_checks:
                 if isinstance(self.level.get_element_at_position(check), ExitDoor):
                     if self.current_level == 10:
-                        print(f"{self.renderer.terminal.move_xy(0, 1)}YOU WIN! Enjoy this delicious cookie!")
+                        return True
                     else:
-                        print(f"{self.renderer.terminal.move_xy(0, 1)}Dude found the door!")
                         self.current_level += 1
                         self.level = create_level_from_file(self.level_dict[self.current_level])
 
@@ -79,6 +79,5 @@ class GameState:
         Args:
             keystroke (Keystroke): user input on keyboard
         """
-        self.game_state()
         self.process_input(keystroke)
         self.renderer.render_level(self.level)
