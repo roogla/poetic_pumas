@@ -10,11 +10,11 @@ from .ground import Ground
 from .levelelement import ControllableLevelElement, LevelElement
 from .null_element import NullElement
 from .space import Space
+from .tele_block import TelekinesisBlock
+from .tele_pad import TelekinesisPad
 from .topbottomwall import TopBottomWall
 from .topwall import TopWall
 from .wall import Wall
-from .tele_pad import TelekinesisPad
-from .tele_block import TelekinesisBlock
 
 # All of the elements that will be used in the game layout.
 ACTIVE_ELEMENTS: tuple[Type[LevelElement], ...] = (

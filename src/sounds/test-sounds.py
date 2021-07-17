@@ -1,7 +1,6 @@
 # Must be run from parent directory: poetic pumas
 import os
 import sys
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import time
 from random import choice
 from string import ascii_lowercase as KEYS
@@ -9,10 +8,7 @@ from typing import Dict
 
 from blessed import Terminal
 from pygame import mixer
-
-# adapted from https://stackoverflow.com/questions/16480898
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from src.game.soundboard import Soundboard
+from soundboard import Soundboard
 
 
 def draw(x: int, y: int, char: str) -> None:
@@ -29,7 +25,7 @@ def load_sounds() -> Dict[str, Dict[str, mixer.Sound]]:
     the file and the corresponding mixer.Sound object
     """
     sounds = [
-            {"name": x[:-4], "sound": mixer.Sound(os.path.join(Soundboard.SFX_DIR, x))}
+        {"name": x[:-4], "sound": mixer.Sound(os.path.join(Soundboard.SFX_DIR, x))}
         for x in sorted(os.listdir(Soundboard.SFX_DIR))
         if x.endswith(".wav")
     ]
@@ -73,6 +69,6 @@ if __name__ == "__main__":
             if inp in keymap.keys() and (
                 inp != last_inp or (time.time() - last_inp_time > wait_time)
             ):
-                s.play_sfx(keymap[inp]['name']) 
+                s.play_sfx(keymap[inp]['name'])
             last_inp = inp
             last_inp_time = time.time()

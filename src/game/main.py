@@ -30,7 +30,7 @@ def main(terminal: Terminal) -> None:
     """Main entry point and loop for the game."""
     # Necessary when running with Docker; Docker's terminal defaults to 8 colors
     terminal.number_of_colors = 1 << 24
-
+    os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
     starting_level = starting_level_from_script_args()
 
     # initalize game vars

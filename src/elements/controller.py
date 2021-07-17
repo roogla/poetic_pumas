@@ -50,7 +50,7 @@ class Controller:
         If there are any objects to the left of block dude, he cannot move left.
         """
         self._move(data, Movement.DOWN)
-    
+
     def interact(self, data: element_data.ElementData) -> None:
         pass
 
@@ -179,7 +179,7 @@ class DudeController(Controller):
     def interact(self, data: element_data.ElementData) -> None:
         if self.carrying:
             return
-    
+
         position = data.level.active_element.position
         below = position + Movement.DOWN
         bottom_element = data.level.get_element_at_position(below)
@@ -190,7 +190,7 @@ class DudeController(Controller):
 
 
 class TelekinesisController(Controller):
-    
+
     def _move(
         self,
         data: element_data.ElementData,
@@ -212,15 +212,15 @@ class TelekinesisController(Controller):
 
     def interact(self, data: element_data.ElementData):
         """Gives the controls back to blockdude
-        
+
         Also drops the block before so that it doesn't float
         """
         data.soundboard.play_sfx("tele_drop")
         position = data.level.active_element.position
         below = position + Movement.DOWN
-        while isinstance(data.level.get_element_at_position(below),elements.Space):
+        while isinstance(data.level.get_element_at_position(below), elements.Space):
             below += Movement.DOWN
-        
-        data.level.move_element(position, below+Movement.UP)  
+
+        data.level.move_element(position, below+Movement.UP)
         dude = data.level.find_element(elements.Dude)
         data.level.set_active_element(dude)
