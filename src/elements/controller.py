@@ -184,6 +184,7 @@ class DudeController(Controller):
         if isinstance(bottom_element, elements.TelekinesisPad):
             block = data.level.find_element(elements.TelekinesisBlock)
             data.level.set_active_element(block)
+            data.soundboard.play_sfx("tele_pickup")
 
 
 class TelekinesisController(Controller):
@@ -201,9 +202,10 @@ class TelekinesisController(Controller):
 
         if isinstance(lateral_element, elements.Space):
             destination = lateral_position
+            data.soundboard.play_sfx("step")
         else:
             destination = position
-        
+            data.soundboard.play_sfx("bump")
         data.level.move_element(position, destination)
 
     def interact(self, data: element_data.ElementData):
@@ -211,6 +213,7 @@ class TelekinesisController(Controller):
         
         Also drops the block before so that it doesn't float
         """
+        data.soundboard.play_sfx("tele_drop")
         position = data.level.active_element.position
         below = position + Movement.DOWN
         while isinstance(data.level.get_element_at_position(below),elements.Space):
