@@ -48,6 +48,7 @@ def main(terminal: Terminal) -> None:
             keystroke = terminal.inkey(timeout=TIMEOUT)
 
             if keystroke:
+                print(terminal.home+terminal.clear)
                 gamestate.update(keystroke)
 
 
